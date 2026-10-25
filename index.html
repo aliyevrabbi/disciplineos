@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>DisciplineOS</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    /* iOS 9.3.5 Safari Compatible Stylesheet (Zero CSS Grid, Zero CSS Vars, Zero Modern Filters) */
+    * {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #000000;
+      color: #e0e0e0;
+      font-family: -apple-system, Courier, monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 50px;
+    }
+    a, button, input, select, textarea {
+      font-family: inherit;
+      color: inherit;
+      -webkit-appearance: none;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #1a1a1a;
+      border: 1px solid #333333;
+      padding: 10px 14px;
+      min-height: 44px;
+      min-width: 44px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+    }
+    button:active {
+      background-color: #333333;
+    }
+    input, select, textarea {
+      background-color: #0d0d0d;
+      border: 1px solid #2a2a2a;
+      padding: 10px;
+      font-size: 14px;
+      width: 100%;
+      display: block;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #555555;
+      outline: none;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 10px 14px;
+    }
+    /* Header */
+    .header-bar {
+      border-bottom: 1px solid #1a1a1a;
+      background-color: #050505;
+      padding: 8px 12px;
+      position: relative;
+    }
+    .header-inner {
+      display: table;
+      width: 100%;
+    }
+    .header-left, .header-center, .header-right {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    .header-left {
+      width: 25%;
+    }
+    .header-center {
+      width: 50%;
+      text-align: center;
+    }
+    .header-right {
+      width: 25%;
+      text-align: right;
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+    .brand-sub {
+      font-size: 10px;
+      color: #666666;
+      display: block;
+    }
+    .countdown-box {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #0f0f0f;
+      border: 1px solid #222222;
+      border-radius: 4px;
+    }
+    .countdown-lbl {
+      font-size: 10px;
+      color: #888888;
+      display: block;
+    }
+    .countdown-val {
+      font-size: 13px;
+      font-weight: bold;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+    .icon-btn {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 6px;
+      margin-left: 4px;
+      background-color: #111111;
+      border: 1px solid #222222;
+      vertical-align: middle;
+    }
+    .icon-svg {
+      display: inline-block;
+      vertical-align: middle;
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #cccccc;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    /* Tabs Navigation */
+    .nav-tabs {
+      border-bottom: 1px solid #1a1a1a;
+      background-color: #0a0a0a;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 6px 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      display: inline-block;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #888888;
+      background: none;
+      border: 1px solid transparent;
+      margin-right: 6px;
+    }
+    .tab-btn.active {
+      color: #ffffff;
+      background-color: #1a1a1a;
+      border-color: #333333;
+    }
+    /* Cards and Sections */
+    .card {
+      background-color: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #181818;
+    }
+    .card-title-sub {
+      float: right;
+      font-weight: normal;
+      font-size: 11px;
+      color: #666666;
+    }
+    /* Grid Helpers via Tables/Floats */
+    .row {
+      margin-left: -6px;
+      margin-right: -6px;
+    }
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .col-6 {
+      float: left;
+      width: 50%;
+      padding: 0 6px;
+      margin-bottom: 10px;
+    }
+    .col-4 {
+      float: left;
+      width: 33.333%;
+      padding: 0 6px;
+      margin-bottom: 10px;
+    }
+    .col-3 {
+      float: left;
+      width: 25%;
+      padding: 0 6px;
+      margin-bottom: 10px;
+    }
+    .col-12 {
+      width: 100%;
+      padding: 0 6px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 600px) {
+      .col-6, .col-4, .col-3 {
+        width: 100%;
+        float: none;
+      }
+      .header-left, .header-center, .header-right {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .header-right {
+        text-align: center;
+      }
+    }
+    /* Metric Item */
+    .metric-box {
+      background-color: #0e0e0e;
+      border: 1px solid #1d1d1d;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .metric-label {
+      font-size: 11px;
+      color: #777777;
+      margin-bottom: 4px;
+    }
+    .metric-num {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+    .metric-sub {
+      font-size: 10px;
+      color: #555555;
+      margin-top: 4px;
+    }
+    /* Progress Bar */
+    .prog-track {
+      background-color: #1a1a1a;
+      border: 1px solid #262626;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .prog-bar {
+      background-color: #38bdf8;
+      height: 100%;
+      width: 0%;
+    }
+    .prog-bar.green { background-color: #10b981; }
+    .prog-bar.amber { background-color: #f59e0b; }
+    /* Checkbox & Interactive Items */
+    .check-label {
+      display: block;
+      padding: 10px;
+      background-color: #0e0e0e;
+      border: 1px solid #1d1d1d;
+      border-radius: 4px;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .check-input {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    .check-text {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 13px;
+      color: #dddddd;
+    }
+    /* Rating Buttons */
+    .rate-btn {
+      min-width: 38px;
+      min-height: 38px;
+      padding: 6px;
+      margin-right: 4px;
+      font-size: 12px;
+      background-color: #0d0d0d;
+      border: 1px solid #262626;
+      color: #888888;
+    }
+    .rate-btn.selected {
+      background-color: #10b981;
+      border-color: #10b981;
+      color: #000000;
+      font-weight: bold;
+    }
+    /* Tables */
+    .table-list {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .table-list th {
+      text-align: left;
+      padding: 8px 6px;
+      color: #666666;
+      border-bottom: 1px solid #1f1f1f;
+      font-weight: normal;
+    }
+    .table-list td {
+      padding: 10px 6px;
+      border-bottom: 1px solid #141414;
+      color: #cccccc;
+    }
+    /* Colors */
+    .text-green { color: #10b981; }
+    .text-red { color: #f43f5e; }
+    .text-blue { color: #38bdf8; }
+    .text-amber { color: #f59e0b; }
+    .text-dim { color: #666666; }
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.88);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 16px;
+      display: none;
+    }
+    .modal-box {
+      background-color: #0d0d0d;
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 16px;
+    }
+    .modal-header {
+      border-bottom: 1px solid #222222;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    .modal-header:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .modal-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #ffffff;
+      float: left;
+    }
+    .modal-close-btn {
+      float: right;
+      min-width: 32px;
+      min-height: 32px;
+      padding: 4px 8px;
+      background: none;
+      border: 1px solid #333333;
+      color: #aaaaaa;
+    }
+    /* Status Bar at Bottom */
+    .status-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #050505;
+      border-top: 1px solid #1a1a1a;
+      padding: 6px 14px;
+      font-size: 11px;
+      color: #666666;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      border: 1px solid #333333;
+    }
+    .badge-income { border-color: #065f46; color: #34d399; background: #022c22; }
+    .badge-expense { border-color: #881337; color: #fb7185; background: #4c0519; }
+    .empty-state {
+      padding: 24px 10px;
+      text-align: center;
+      color: #555555;
+      font-size: 12px;
+      border: 1px dashed #1a1a1a;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <div class="header-bar">
+    <div class="header-inner">
+      <div class="header-left">
+        <span class="brand-title">DisciplineOS</span>
+        <span class="brand-sub">iOS 9 Terminal</span>
+      </div>
+      <div class="header-center">
+        <div class="countdown-box">
+          <span class="countdown-lbl" id="countdownLabelDisplay">Hədəfə geri sayım:</span>
+          <span class="countdown-val" id="countdownTimerDisplay">000d : 00h : 00m : 00s</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <!-- Server Sync Button -->
+        <button type="button" class="icon-btn" id="btnHeaderRemoteSync" title="Serverlə sinxronizasiya" aria-label="Serverlə sinxronizasiya">
+          <span id="remoteSyncLabel" style="font-size: 10px;">SYNC</span>
+        </button>
+        <!-- AI JSON Sync Button -->
+        <button type="button" class="icon-btn" id="btnHeaderSync" title="AI JSON Sinxronizasiyası" aria-label="JSON Sinxronizasiyası">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+        </button>
+        <!-- Daily Sentence Modal Button -->
+        <button type="button" class="icon-btn" id="btnHeaderSentence" title="Günün Cümləsi Tarixçəsi" aria-label="Günün Cümləsi">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <!-- Settings Modal Button -->
+        <button type="button" class="icon-btn" id="btnHeaderSettings" title="Tənzimləmələr" aria-label="Tənzimləmələr">
+          <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <!-- JSON Export Button -->
+        <button type="button" class="icon-btn" id="btnHeaderExport" title="JSON İxrac Et" aria-label="JSON İxrac">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION TABS -->
+  <div class="nav-tabs" role="tablist">
+    <button type="button" class="tab-btn active" id="tabNavOverview">Xülasə</button>
+    <button type="button" class="tab-btn" id="tabNavFinance">Maliyyə</button>
+    <button type="button" class="tab-btn" id="tabNavBody">Bədən və Qida</button>
+    <button type="button" class="tab-btn" id="tabNavIelts">IELTS Hazırlıq</button>
+    <button type="button" class="tab-btn" id="tabNavSentence">Günün Cümləsi</button>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- ==================== VIEW 1: OVERVIEW ==================== -->
+    <div id="viewOverview">
+      <!-- 4 Top Metrics -->
+      <div class="row">
+        <div class="col-3">
+          <div class="metric-box">
+            <div class="metric-label">Xalis Balans</div>
+            <div class="metric-num text-green" id="ovBalanceVal">0.00 ₼</div>
+            <div class="metric-sub" id="ovBudgetSub">Büdcə: 0%</div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="metric-box">
+            <div class="metric-label">Çəki Dinamikası</div>
+            <div class="metric-num" id="ovWeightVal">—</div>
+            <div class="metric-sub" id="ovWeightSub">Hədəf: 65.0 kq</div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="metric-box">
+            <div class="metric-label">Gündəlik Kalori</div>
+            <div class="metric-num text-amber" id="ovCalorieVal">0 / 2600</div>
+            <div class="metric-sub" id="ovLunchSub">Nahar: Qeyd edilməyib</div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="metric-box">
+            <div class="metric-label">IELTS Streak</div>
+            <div class="metric-num text-blue" id="ovStreakVal">0 gün</div>
+            <div class="metric-sub" id="ovIeltsSub">Bugün: 0 dəq</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Discipline Checklist -->
+      <div class="card">
+        <div class="card-title">
+          Bugünkü İntizam Nəzarəti
+          <span class="card-title-sub" id="ovDateDisplay"></span>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label class="check-label">
+              <input type="checkbox" class="check-input" id="chkOvFap">
+              <span class="check-text">Fap? (Şəxsi vərdiş qeydi)</span>
+            </label>
+          </div>
+          <div class="col-6">
+            <label class="check-label">
+              <input type="checkbox" class="check-input" id="chkOvLunchBomb">
+              <span class="check-text">Nahar / Kalori Bombası?</span>
+            </label>
+          </div>
+          <div class="col-6">
+            <label class="check-label">
+              <input type="checkbox" class="check-input" id="chkOvLeads">
+              <span class="check-text">Leads / Tasks? (Əsas tapşırıqlar)</span>
+            </label>
+          </div>
+          <div class="col-6">
+            <div class="check-label" style="cursor: default;">
+              <span class="check-text" style="margin-right: 8px;">IELTS? (1-5):</span>
+              <button type="button" class="rate-btn" data-r="1">1</button>
+              <button type="button" class="rate-btn" data-r="2">2</button>
+              <button type="button" class="rate-btn" data-r="3">3</button>
+              <button type="button" data-r="4" class="rate-btn">4</button>
+              <button type="button" class="rate-btn" data-r="5">5</button>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 10px;">
+          <input type="text" id="txtOvDescription" placeholder="Günün qısa qeydi (description)...">
+        </div>
+      </div>
+
+      <!-- Quick Sentence & Quick Actions -->
+      <div class="row">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-title">Günün Cümləsi</div>
+            <textarea id="txtOvSentence" rows="2" maxlength="240" placeholder="Bu gün atılan ən vacib addım (1 gün = 1 cümlə)..."></textarea>
+            <div style="margin-top: 8px; text-align: right;">
+              <span style="font-size: 11px; color: #666; margin-right: 8px;" id="ovSentenceCount">0 / 240</span>
+              <button type="button" id="btnSaveOvSentence">Yadda saxla</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card">
+            <div class="card-title">Son Maliyyə Əməliyyatları</div>
+            <div id="ovRecentTxnsContainer">
+              <div class="empty-state">Məlumat yoxdur</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 2: FINANCE ==================== -->
+    <div id="viewFinance" style="display: none;">
+      <!-- Hero Balance -->
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 12px; color: #888888; margin-bottom: 6px;">Cari Xalis Balans</div>
+        <div style="font-size: 32px; font-weight: bold; color: #ffffff;" id="finHeroBalance">0.00 ₼</div>
+        <div style="margin-top: 14px;">
+          <button type="button" id="btnOpenAddIncome" style="background-color: #064e3b; border-color: #059669; color: #6ee7b7; margin-right: 8px;">
+            + Mədaxil
+          </button>
+          <button type="button" id="btnOpenAddExpense" style="background-color: #4c0519; border-color: #e11d48; color: #fda4af;">
+            − Məxaric
+          </button>
+        </div>
+      </div>
+
+      <!-- Transactions Ledger -->
+      <div class="card">
+        <div class="card-title">
+          Əməliyyat Tarixçəsi
+          <span class="card-title-sub" id="finTxnCount">0 əməliyyat</span>
+        </div>
+        <table class="table-list">
+          <thead>
+            <tr>
+              <th>Tarix</th>
+              <th>Növ</th>
+              <th>Kateqoriya</th>
+              <th>Açıqlama</th>
+              <th style="text-align: right;">Məbləğ</th>
+              <th style="text-align: right;">Aksiya</th>
+            </tr>
+          </thead>
+          <tbody id="finTableBody">
+            <tr><td colspan="6" class="empty-state">Maliyyə əməliyyatı yoxdur</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 3: DISCIPLINE & BODY ==================== -->
+    <div id="viewBody" style="display: none;">
+      <!-- Weight Goal Card -->
+      <div class="card">
+        <div class="card-title">
+          Sağlam Çəki Hədəfi (52.0 kq → 65.0 kq)
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="metric-box">
+              <div class="metric-label">Başlanğıc / Hədəf</div>
+              <div class="metric-num"><span id="bodyStartWeightVal">52.0</span> → <span id="bodyTargetWeightVal">65.0</span> kq</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="metric-box">
+              <div class="metric-label">Son Çəki</div>
+              <div class="metric-num text-green" id="bodyLatestWeightVal">—</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="metric-box">
+              <div class="metric-label">Hədəfə Qalan</div>
+              <div class="metric-num text-blue" id="bodyRemainingVal">—</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog-track">
+          <div class="prog-bar green" id="bodyProgressBar"></div>
+        </div>
+      </div>
+
+      <!-- Nutrition & Body Form -->
+      <div class="card">
+        <div class="card-title">Bugünkü Qidalanma və Çəki Girişi</div>
+        <form id="formNutrition">
+          <div class="row">
+            <div class="col-6">
+              <label class="metric-label">Bugünkü Çəki (kq):</label>
+              <input type="number" step="0.1" id="inpNutWeight" placeholder="52.4">
+            </div>
+            <div class="col-6">
+              <label class="metric-label">Kalori (kcal, hədəf 2600):</label>
+              <input type="number" id="inpNutCalories" placeholder="2380">
+            </div>
+            <div class="col-4">
+              <label class="metric-label">Zülal (Protein, q):</label>
+              <input type="number" id="inpNutProtein" placeholder="96">
+            </div>
+            <div class="col-4">
+              <label class="metric-label">Karbohidrat (q):</label>
+              <input type="number" id="inpNutCarbs" placeholder="310">
+            </div>
+            <div class="col-4">
+              <label class="metric-label">Yağ (Fat, q):</label>
+              <input type="number" id="inpNutFat" placeholder="72">
+            </div>
+            <div class="col-6">
+              <label class="metric-label">Su (ml):</label>
+              <input type="number" id="inpNutWater" placeholder="2100">
+            </div>
+            <div class="col-6">
+              <label class="metric-label">Nahar Statusu:</label>
+              <select id="selNutLunch">
+                <option value="not_logged">Qeyd edilməyib</option>
+                <option value="planned">Planlaşdırılıb</option>
+                <option value="done">Yeyildi</option>
+                <option value="skipped">Yeyilmədi</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <button type="submit" style="width: 100%; background-color: #1a1a1a; border-color: #333;">
+              Qidalanma və Çəkini Yadda Saxla
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Weight & Body History -->
+      <div class="card">
+        <div class="card-title">Çəki və Qida Tarixçəsi</div>
+        <table class="table-list">
+          <thead>
+            <tr>
+              <th>Tarix</th>
+              <th>Çəki</th>
+              <th>Kalori</th>
+              <th>Makrolar (P/C/F)</th>
+              <th>Su</th>
+              <th>Nahar</th>
+            </tr>
+          </thead>
+          <tbody id="bodyTableBody">
+            <tr><td colspan="6" class="empty-state">Qeyd yoxdur</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 4: IELTS ==================== -->
+    <div id="viewIelts" style="display: none;">
+      <!-- Streak & Target Card -->
+      <div class="card">
+        <div class="card-title">IELTS Hazırlığı (Reading, Listening, Writing, Speaking)</div>
+        <div class="row">
+          <div class="col-6">
+            <div class="metric-box">
+              <div class="metric-label">Streak (Ardıcıl Günlər)</div>
+              <div class="metric-num text-amber">🔥 <span id="ieltsStreakVal">0</span> gün</div>
+              <div class="metric-sub">Gündə ən azı 1 dəqiqə</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="metric-box">
+              <div class="metric-label">Bugünkü Cəm Dəqiqə</div>
+              <div class="metric-num text-blue"><span id="ieltsTotalMinVal">0</span> / <span id="ieltsTargetMinVal">120</span> dəq</div>
+              <div class="metric-sub" id="ieltsPercentSub">Hədəf: 0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Minutes Entry Form -->
+      <div class="card">
+        <div class="card-title">Bugünkü Dəqiqələr Girişi</div>
+        <form id="formIelts">
+          <div class="row">
+            <div class="col-6">
+              <label class="metric-label">Reading (dəqiqə):</label>
+              <input type="number" min="0" max="1440" id="inpIeltsReading" placeholder="35">
+            </div>
+            <div class="col-6">
+              <label class="metric-label">Listening (dəqiqə):</label>
+              <input type="number" min="0" max="1440" id="inpIeltsListening" placeholder="25">
+            </div>
+            <div class="col-6">
+              <label class="metric-label">Writing (dəqiqə):</label>
+              <input type="number" min="0" max="1440" id="inpIeltsWriting" placeholder="0">
+            </div>
+            <div class="col-6">
+              <label class="metric-label">Speaking (dəqiqə):</label>
+              <input type="number" min="0" max="1440" id="inpIeltsSpeaking" placeholder="15">
+            </div>
+            <div class="col-12">
+              <label class="metric-label">Gündəlik IELTS Qeydləri:</label>
+              <input type="text" id="inpIeltsNotes" placeholder="Reading test 2 və Speaking part 2 məşqi...">
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <button type="submit" style="width: 100%;">IELTS Dəqiqələrini Saxla</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- IELTS History Table -->
+      <div class="card">
+        <div class="card-title">IELTS Tarixçəsi</div>
+        <table class="table-list">
+          <thead>
+            <tr>
+              <th>Tarix</th>
+              <th>R</th>
+              <th>L</th>
+              <th>W</th>
+              <th>S</th>
+              <th>Cəm</th>
+              <th>Reytinq</th>
+              <th>Qeyd</th>
+            </tr>
+          </thead>
+          <tbody id="ieltsTableBody">
+            <tr><td colspan="8" class="empty-state">IELTS qeydi yoxdur</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 5: DAILY SENTENCE ==================== -->
+    <div id="viewSentence" style="display: none;">
+      <div class="card">
+        <div class="card-title">Hər Gün Üçün Tək Bir Cümlə (1 gün = 1 cümlə)</div>
+        <textarea id="txtMainSentence" rows="3" maxlength="240" placeholder="Bu gün qazanılan ən vacib prinsip və ya həyat dərsi..."></textarea>
+        <div style="margin-top: 8px; text-align: right;">
+          <span style="font-size: 11px; color: #666; margin-right: 8px;" id="mainSentenceCount">0 / 240</span>
+          <button type="button" id="btnSaveMainSentence">Cümləni Yadda Saxla</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          Cümlələr Tarixçəsi
+          <span class="card-title-sub" id="sentenceHistoryCount">0 qeyd</span>
+        </div>
+        <table class="table-list">
+          <thead>
+            <tr>
+              <th>Cümlə</th>
+              <th style="width: 100px; text-align: right;">Tarix</th>
+            </tr>
+          </thead>
+          <tbody id="sentenceTableBody">
+            <tr><td colspan="2" class="empty-state">Heç bir cümlə yazılmayıb</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== MODAL: TRANSACTION ==================== -->
+  <div class="modal-overlay" id="modalTransaction">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="txnModalTitle">Maliyyə Əməliyyatı</div>
+        <button type="button" class="modal-close-btn" id="btnCloseTxnModal">✕</button>
+      </div>
+      <form id="formTransaction">
+        <input type="hidden" id="txnInpHiddenId">
+        <div class="row">
+          <div class="col-6">
+            <label class="metric-label">Əməliyyat Növü:</label>
+            <select id="txnInpType">
+              <option value="income">Mədaxil (Gəlir / +)</option>
+              <option value="expense">Məxaric (Xərc / −)</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Məbləğ (AZN):</label>
+            <input type="number" step="0.01" min="0.01" id="txnInpAmount" required placeholder="15.00">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Tarix (YYYY-MM-DD):</label>
+            <input type="text" id="txnInpDate" required placeholder="2026-10-25">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Saat:</label>
+            <input type="text" id="txnInpTime" placeholder="14:30">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Kateqoriya:</label>
+            <input type="text" id="txnInpCategory" required placeholder="Food / Freelance">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Qısa Açıqlama:</label>
+            <input type="text" id="txnInpDesc" placeholder="Nahar, layihə haqqı və s.">
+          </div>
+        </div>
+        <div style="margin-top: 14px; text-align: right;">
+          <button type="button" id="btnCancelTxnModal" style="margin-right: 8px;">Ləğv et</button>
+          <button type="submit" style="background-color: #064e3b; border-color: #059669; color: #fff;">Yadda Saxla</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: AI JSON SYNC ==================== -->
+  <div class="modal-overlay" id="modalSync">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">AI JSON Sinxronizasiyası</div>
+        <button type="button" class="modal-close-btn" id="btnCloseSyncModal">✕</button>
+      </div>
+      <div style="font-size: 11px; color: #888888; margin-bottom: 10px;">
+        Süni intellektdən alınan gündəlik JSON faylını yapışdırın və ya fayl seçin.
+      </div>
+      <div style="margin-bottom: 10px;">
+        <input type="file" id="inpSyncFile" accept=".json,application/json">
+      </div>
+      <div style="margin-bottom: 8px;">
+        <button type="button" id="btnInjectSample" style="font-size: 11px; padding: 6px 10px;">
+          Nümunə Formatı Göstər / Yapışdır
+        </button>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <textarea id="txtSyncInput" rows="7" placeholder='{"schemaVersion": 1, "date": "2026-10-25", ...}'></textarea>
+      </div>
+      <div id="syncFeedbackBox" style="display: none; padding: 8px; border-radius: 4px; font-size: 11px; margin-bottom: 10px;"></div>
+      <div style="text-align: right;">
+        <button type="button" id="btnCancelSyncModal" style="margin-right: 8px;">Bağla</button>
+        <button type="button" id="btnExecuteSync" style="background-color: #0284c7; border-color: #0369a1; color: #ffffff;">
+          SYNC (Tətbiq Et)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: REMOTE SYNC ==================== -->
+  <div class="modal-overlay" id="modalRemote">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Serverlə sinxronizasiya</div>
+        <button type="button" class="modal-close-btn" id="btnCloseRemoteModal">✕</button>
+      </div>
+      <div id="remoteBody" style="font-size: 11px; color: #888888; margin-bottom: 10px;"></div>
+      <div id="remoteLoginBox" style="display: none; margin-bottom: 10px;">
+        <input type="password" id="inpRemotePassword" autocomplete="current-password" placeholder="Parol" style="width: 100%;">
+      </div>
+      <div id="remoteFeedbackBox" style="display: none; padding: 8px; border-radius: 4px; font-size: 11px; margin-bottom: 10px;"></div>
+      <div id="remoteChoiceBox" style="display: none; font-size: 11px; margin-bottom: 10px;">
+        <div id="remoteChoiceText" style="margin-bottom: 8px; color: #cccccc;"></div>
+        <textarea id="remoteCompare" readonly rows="6" style="width: 100%; font-size: 10px;"></textarea>
+        <div style="margin-top: 8px;">
+          <button type="button" id="btnRemoteKeepLocal" style="margin-right: 6px;">Cihazdakını saxla</button>
+          <button type="button" id="btnRemoteUseServer" style="margin-right: 6px;">Serverdəkini bərpa et</button>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <button type="button" id="btnRemoteClose" style="margin-right: 8px;">Bağla</button>
+        <button type="button" id="btnRemoteRestore" style="margin-right: 8px;">Serverdən bərpa et</button>
+        <button type="button" id="btnRemoteAction" style="background-color: #0284c7; border-color: #0369a1; color: #ffffff;">Sinxronizasiya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: SETTINGS ==================== -->
+  <div class="modal-overlay" id="modalSettings">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Tənzimləmələr</div>
+        <button type="button" class="modal-close-btn" id="btnCloseSettingsModal">✕</button>
+      </div>
+      <form id="formSettings">
+        <div class="row">
+          <div class="col-6">
+            <label class="metric-label">Hədəf Tarix Adı:</label>
+            <input type="text" id="setInpCountdownLabel" placeholder="Yeni il">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Hədəf Tarix (YYYY-MM-DD):</label>
+            <input type="text" id="setInpCountdownDate" placeholder="2027-01-01">
+          </div>
+          <div class="col-4">
+            <label class="metric-label">Başlanğıc Çəki (kq):</label>
+            <input type="number" step="0.1" id="setInpStartWeight" placeholder="52.0">
+          </div>
+          <div class="col-4">
+            <label class="metric-label">Hədəf Çəki (kq):</label>
+            <input type="number" step="0.1" id="setInpTargetWeight" placeholder="65.0">
+          </div>
+          <div class="col-4">
+            <label class="metric-label">Kalori Hədəfi (kcal):</label>
+            <input type="number" id="setInpCalorieTarget" placeholder="2600">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">Aylıq Büdcə (AZN):</label>
+            <input type="number" id="setInpBudget" placeholder="300">
+          </div>
+          <div class="col-6">
+            <label class="metric-label">IELTS Gündəlik Hədəf (dəq):</label>
+            <input type="number" id="setInpIeltsMinutes" placeholder="120">
+          </div>
+        </div>
+        <div style="margin-top: 10px; padding: 10px; background-color: #1a0505; border: 1px solid #4a0f0f; border-radius: 4px;">
+          <div style="font-size: 11px; color: #f87171; margin-bottom: 6px;">Bütün Məlumatları Sıfırla</div>
+          <button type="button" id="btnResetAllStorage" style="background-color: #7f1d1d; border-color: #991b1b; color: #fff; font-size: 11px;">
+            Yaddaşı Təmizlə
+          </button>
+        </div>
+        <div style="margin-top: 14px; text-align: right;">
+          <button type="button" id="btnCancelSettingsModal" style="margin-right: 8px;">Bağla</button>
+          <button type="submit" style="background-color: #10b981; border-color: #059669; color: #000; font-weight: bold;">
+            Yadda Saxla
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- STATUS BAR AT BOTTOM -->
+  <div class="status-bar">
+    <span id="storageStatusText">Lokal Yaddaş: disciplineos:v1</span>
+    <span style="float: right;" id="statusIndicator">Hazırdır</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ES5 ENGINE ==================== -->
+  <script>
+    /* Strict ES5 JavaScript Implementation for iOS 9.3.5 Safari */
+    var STORAGE_KEY = 'disciplineos:v1';
+    var memoryStorage = {};
+
+    function getStorageItem(key) {
+      try {
+        if (window.localStorage) {
+          return window.localStorage.getItem(key);
+        }
+      } catch (e) {
+        // Private mode or storage blocked
+      }
+      return memoryStorage[key] || null;
+    }
+
+    function setStorageItem(key, val) {
+      try {
+        if (window.localStorage) {
+          window.localStorage.setItem(key, val);
+          return true;
+        }
+      } catch (e) {
+        // Fallback to in-memory
+      }
+      memoryStorage[key] = val;
+      updateStorageStatus('Məlumat yalnız sessiyada saxlanılır (Private browsing)');
+      return false;
+    }
+
+    function updateStorageStatus(msg) {
+      var el = document.getElementById('storageStatusText');
+      if (el) el.textContent = msg;
+    }
+
+    function updateStatusIndicator(msg) {
+      var el = document.getElementById('statusIndicator');
+      if (el) {
+        el.textContent = msg;
+        setTimeout(function() {
+          el.textContent = 'Hazırdır';
+        }, 2000);
+      }
+    }
+
+    /* ES5 Array Helpers */
+    function findItem(arr, fn) {
+      if (!arr) return null;
+      for (var i = 0; i < arr.length; i++) {
+        if (fn(arr[i], i)) return arr[i];
+      }
+      return null;
+    }
+
+    function findIndex(arr, fn) {
+      if (!arr) return -1;
+      for (var i = 0; i < arr.length; i++) {
+        if (fn(arr[i], i)) return i;
+      }
+      return -1;
+    }
+
+    function arrayIncludes(arr, val) {
+      if (!arr) return false;
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === val) return true;
+      }
+      return false;
+    }
+
+    /* Safe Date Component Parsers */
+    function parseLocalDate(str) {
+      if (!str || typeof str !== 'string') return new Date();
+      var parts = str.split('-');
+      if (parts.length < 3) return new Date();
+      var y = parseInt(parts[0], 10);
+      var m = parseInt(parts[1], 10) - 1;
+      var d = parseInt(parts[2], 10);
+      return new Date(y, m, d);
+    }
+
+    function parseLocalDateTime(str) {
+      if (!str || typeof str !== 'string') return new Date();
+      var dtParts = str.split('T');
+      var dateParts = dtParts[0].split('-');
+      var y = parseInt(dateParts[0], 10);
+      var m = parseInt(dateParts[1], 10) - 1;
+      var d = parseInt(dateParts[2], 10);
+      var hh = 0, mm = 0, ss = 0;
+      if (dtParts.length > 1) {
+        var timeParts = dtParts[1].split(':');
+        if (timeParts.length > 0) hh = parseInt(timeParts[0], 10) || 0;
+        if (timeParts.length > 1) mm = parseInt(timeParts[1], 10) || 0;
+        if (timeParts.length > 2) ss = parseInt(timeParts[2], 10) || 0;
+      }
+      return new Date(y, m, d, hh, mm, ss);
+    }
+
+    function getLocalDateString(d) {
+      if (!d) d = new Date();
+      var year = d.getFullYear();
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var mStr = (month < 10 ? '0' : '') + month;
+      var dStr = (day < 10 ? '0' : '') + day;
+      return year + '-' + mStr + '-' + dStr;
+    }
+
+    function getNextNewYearIso() {
+      var now = new Date();
+      var nextYear = now.getFullYear() + 1;
+      return nextYear + '-01-01';
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* State Initialization */
+    function getDefaultSettings() {
+      return {
+        startWeightKg: 52.0,
+        targetWeightKg: 65.0,
+        dailyCalorieTargetKcal: 2600,
+        baseCurrency: 'AZN',
+        monthlyBudget: 300,
+        ieltsDailyMinuteTarget: 120,
+        countdownTargetDate: getNextNewYearIso(),
+        countdownLabel: 'Yeni il'
+      };
+    }
+
+    function getDefaultState() {
+      return {
+        settings: getDefaultSettings(),
+        days: [],
+        transactions: []
+      };
+    }
+
+    var state = getDefaultState();
+
+    function loadState() {
+      var raw = getStorageItem(STORAGE_KEY);
+      if (raw) {
+        try {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            state.settings = getDefaultSettings();
+            if (parsed.settings && typeof parsed.settings === 'object') {
+              for (var k in parsed.settings) {
+                if (parsed.settings.hasOwnProperty(k)) {
+                  state.settings[k] = parsed.settings[k];
+                }
+              }
+            }
+            state.days = Array.isArray(parsed.days) ? parsed.days : [];
+            state.transactions = Array.isArray(parsed.transactions) ? parsed.transactions : [];
+          }
+        } catch (e) {
+          state = getDefaultState();
+        }
+      }
+    }
+
+    function saveState() {
+      try {
+        var str = JSON.stringify(state);
+        setStorageItem(STORAGE_KEY, str);
+        markRemoteDirty();
+        updateStatusIndicator('Yadda saxlanıldı');
+      } catch (e) {
+        updateStatusIndicator('Yaddaş xətası');
+      }
+    }
+
+    function getDayRecord(dateStr) {
+      return findItem(state.days, function(d) {
+        return d.date === dateStr;
+      });
+    }
+
+    function upsertDayRecord(dateStr, partial) {
+      var idx = findIndex(state.days, function(d) {
+        return d.date === dateStr;
+      });
+      if (idx >= 0) {
+        var existing = state.days[idx];
+        for (var prop in partial) {
+          if (partial.hasOwnProperty(prop)) {
+            if (typeof partial[prop] === 'object' && partial[prop] !== null && !Array.isArray(partial[prop])) {
+              existing[prop] = existing[prop] || {};
+              for (var sub in partial[prop]) {
+                if (partial[prop].hasOwnProperty(sub)) {
+                  existing[prop][sub] = partial[prop][sub];
+                }
+              }
+            } else {
+              existing[prop] = partial[prop];
+            }
+          }
+        }
+      } else {
+        var newRecord = { date: dateStr };
+        for (var p in partial) {
+          if (partial.hasOwnProperty(p)) {
+            newRecord[p] = partial[p];
+          }
+        }
+        state.days.push(newRecord);
+      }
+      // Sort ascending by date
+      state.days.sort(function(a, b) {
+        return (a.date || '').localeCompare(b.date || '');
+      });
+      saveState();
+    }
+
+    function getIeltsMinutes(ielts) {
+      if (!ielts) return 0;
+      var r = parseInt(ielts.readingMinutes, 10) || 0;
+      var l = parseInt(ielts.listeningMinutes, 10) || 0;
+      var w = parseInt(ielts.writingMinutes, 10) || 0;
+      var s = parseInt(ielts.speakingMinutes, 10) || 0;
+      return r + l + w + s;
+    }
+
+    function calculateStreak(todayStr) {
+      var dayMap = {};
+      for (var i = 0; i < state.days.length; i++) {
+        var d = state.days[i];
+        dayMap[d.date] = getIeltsMinutes(d.ielts);
+      }
+      var streak = 0;
+      var curr = parseLocalDate(todayStr);
+
+      if ((dayMap[todayStr] || 0) < 1) {
+        curr.setDate(curr.getDate() - 1);
+      }
+
+      while (true) {
+        var str = getLocalDateString(curr);
+        var mins = dayMap[str] || 0;
+        if (mins >= 1) {
+          streak++;
+          curr.setDate(curr.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+      return streak;
+    }
+
+    /* Modal Helpers */
+    function openModal(id) {
+      var m = document.getElementById(id);
+      if (m) m.style.display = 'block';
+    }
+
+    function closeModal(id) {
+      var m = document.getElementById(id);
+      if (m) m.style.display = 'none';
+    }
+
+    /* Countdown Engine */
+    var countdownInterval = null;
+    function initCountdown() {
+      var lblEl = document.getElementById('countdownLabelDisplay');
+      var valEl = document.getElementById('countdownTimerDisplay');
+
+      function tick() {
+        var targetStr = state.settings.countdownTargetDate || getNextNewYearIso();
+        var targetDate = parseLocalDateTime(targetStr);
+        var now = new Date();
+        var diff = targetDate.getTime() - now.getTime();
+
+        if (lblEl) {
+          lblEl.textContent = (state.settings.countdownLabel || 'Hədəf') + ':';
+        }
+
+        if (isNaN(diff) || diff <= 0) {
+          if (valEl) valEl.textContent = '000d : 00h : 00m : 00s';
+          return;
+        }
+
+        var totalSecs = Math.floor(diff / 1000);
+        var days = Math.floor(totalSecs / 86400);
+        var hours = Math.floor((totalSecs % 86400) / 3600);
+        var mins = Math.floor((totalSecs % 3600) / 60);
+        var secs = totalSecs % 60;
+
+        function pad(n, len) {
+          var s = String(n);
+          while (s.length < (len || 2)) s = '0' + s;
+          return s;
+        }
+
+        if (valEl) {
+          valEl.textContent = pad(days, 3) + 'd : ' + pad(hours, 2) + 'h : ' + pad(mins, 2) + 'm : ' + pad(secs, 2) + 's';
+        }
+      }
+
+      tick();
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(tick, 1000);
+    }
+
+    /* Render Views */
+    function renderOverview() {
+      var todayStr = getLocalDateString();
+      var todayRec = getDayRecord(todayStr) || {};
+
+      var ovDate = document.getElementById('ovDateDisplay');
+      if (ovDate) ovDate.textContent = '(' + todayStr + ')';
+
+      // 1. Finance Balance
+      var totalInc = 0, totalExp = 0, monthExp = 0;
+      var curMonth = todayStr.substring(0, 7);
+      for (var i = 0; i < state.transactions.length; i++) {
+        var t = state.transactions[i];
+        var amt = parseFloat(t.amount) || 0;
+        if (t.type === 'income') totalInc += amt;
+        if (t.type === 'expense') {
+          totalExp += amt;
+          if (t.date && t.date.indexOf(curMonth) === 0) monthExp += amt;
+        }
+      }
+      var netBal = totalInc - totalExp;
+      var balEl = document.getElementById('ovBalanceVal');
+      if (balEl) {
+        balEl.textContent = netBal.toFixed(2) + ' ₼';
+        balEl.className = 'metric-num ' + (netBal >= 0 ? 'text-green' : 'text-red');
+      }
+      var bLimit = parseFloat(state.settings.monthlyBudget) || 300;
+      var bPct = bLimit > 0 ? Math.round((monthExp / bLimit) * 100) : 0;
+      var bSub = document.getElementById('ovBudgetSub');
+      if (bSub) bSub.textContent = 'Büdcə: ' + bPct + '% (' + monthExp.toFixed(2) + ' / ' + bLimit.toFixed(2) + ' ₼)';
+
+      // 2. Weight
+      var startW = parseFloat(state.settings.startWeightKg) || 52.0;
+      var targetW = parseFloat(state.settings.targetWeightKg) || 65.0;
+      var latestW = null;
+      for (var j = state.days.length - 1; j >= 0; j--) {
+        if (state.days[j].weightKg && state.days[j].weightKg > 0) {
+          latestW = state.days[j].weightKg;
+          break;
+        }
+      }
+      var wVal = document.getElementById('ovWeightVal');
+      if (wVal) wVal.textContent = latestW ? latestW.toFixed(1) + ' kq' : '52.0 kq';
+      var wSub = document.getElementById('ovWeightSub');
+      if (wSub) {
+        var remW = latestW ? Math.max(0, targetW - latestW) : Math.max(0, targetW - startW);
+        wSub.textContent = 'Qalan: ' + remW.toFixed(1) + ' kq (Hədəf: ' + targetW.toFixed(1) + ' kq)';
+      }
+
+      // 3. Calories & Lunch
+      var curCal = (todayRec.nutrition && todayRec.nutrition.caloriesKcal) ? todayRec.nutrition.caloriesKcal : 0;
+      var calTarget = parseInt(state.settings.dailyCalorieTargetKcal, 10) || 2600;
+      var calEl = document.getElementById('ovCalorieVal');
+      if (calEl) calEl.textContent = curCal + ' / ' + calTarget;
+
+      var lunchStatus = (todayRec.nutrition && todayRec.nutrition.lunchStatus) ? todayRec.nutrition.lunchStatus : 'not_logged';
+      var lunchSub = document.getElementById('ovLunchSub');
+      if (lunchSub) {
+        var lLabels = {
+          'done': 'Yeyildi',
+          'skipped': 'Yeyilmədi',
+          'planned': 'Planlaşdırılıb',
+          'not_logged': 'Qeyd edilməyib'
+        };
+        lunchSub.textContent = 'Nahar: ' + (lLabels[lunchStatus] || lunchStatus);
+      }
+
+      // 4. IELTS
+      var streak = calculateStreak(todayStr);
+      var strkEl = document.getElementById('ovStreakVal');
+      if (strkEl) strkEl.textContent = streak + ' gün';
+
+      var todayIeltsMins = getIeltsMinutes(todayRec.ielts);
+      var ieltsSub = document.getElementById('ovIeltsSub');
+      if (ieltsSub) ieltsSub.textContent = 'Bugün: ' + todayIeltsMins + ' dəqiqə';
+
+      // 5. Checklist controls
+      var chkF = document.getElementById('chkOvFap');
+      if (chkF) chkF.checked = !!(todayRec.checklist && todayRec.checklist.fap);
+
+      var chkL = document.getElementById('chkOvLunchBomb');
+      if (chkL) {
+        var isBomb = (todayRec.nutrition && todayRec.nutrition.lunchOrCalorieBomb) || (todayRec.checklist && todayRec.checklist.lunchOrCalorieBomb);
+        chkL.checked = !!isBomb;
+      }
+
+      var chkLd = document.getElementById('chkOvLeads');
+      if (chkLd) chkLd.checked = !!(todayRec.checklist && todayRec.checklist.leadsOrTasksDone);
+
+      var currentRate = (todayRec.checklist && todayRec.checklist.ieltsRating) ? todayRec.checklist.ieltsRating : 0;
+      var rBtns = document.querySelectorAll('.rate-btn');
+      for (var r = 0; r < rBtns.length; r++) {
+        var rVal = parseInt(rBtns[r].getAttribute('data-r'), 10);
+        if (rVal === currentRate) {
+          rBtns[r].className = 'rate-btn selected';
+        } else {
+          rBtns[r].className = 'rate-btn';
+        }
+      }
+
+      var descInp = document.getElementById('txtOvDescription');
+      if (descInp && document.activeElement !== descInp) {
+        descInp.value = todayRec.description || '';
+      }
+
+      // Quick Daily Sentence
+      var sentTxt = document.getElementById('txtOvSentence');
+      if (sentTxt && document.activeElement !== sentTxt) {
+        sentTxt.value = todayRec.dailySentence || '';
+        var cnt = document.getElementById('ovSentenceCount');
+        if (cnt) cnt.textContent = sentTxt.value.length + ' / 240';
+      }
+
+      // Recent Transactions list
+      var recBox = document.getElementById('ovRecentTxnsContainer');
+      if (recBox) {
+        if (state.transactions.length === 0) {
+          recBox.innerHTML = '<div class="empty-state">Məlumat yoxdur</div>';
+        } else {
+          var recHtml = '<table class="table-list">';
+          var maxShow = state.transactions.length < 4 ? state.transactions.length : 4;
+          for (var k = 0; k < maxShow; k++) {
+            var tx = state.transactions[k];
+            var isInc = tx.type === 'income';
+            recHtml += '<tr>' +
+              '<td>' + escapeHtml(tx.description || tx.category) + '<br><span style="font-size:10px; color:#666;">' + escapeHtml(tx.date) + '</span></td>' +
+              '<td style="text-align:right; font-weight:bold;" class="' + (isInc ? 'text-green' : 'text-red') + '">' +
+              (isInc ? '+' : '−') + parseFloat(tx.amount).toFixed(2) + ' ₼' +
+              '</td></tr>';
+          }
+          recHtml += '</table>';
+          recBox.innerHTML = recHtml;
+        }
+      }
+    }
+
+    function renderFinance() {
+      var totalInc = 0, totalExp = 0;
+      for (var i = 0; i < state.transactions.length; i++) {
+        var t = state.transactions[i];
+        var amt = parseFloat(t.amount) || 0;
+        if (t.type === 'income') totalInc += amt;
+        if (t.type === 'expense') totalExp += amt;
+      }
+      var bal = totalInc - totalExp;
+      var hBal = document.getElementById('finHeroBalance');
+      if (hBal) {
+        hBal.textContent = bal.toFixed(2) + ' ₼';
+        hBal.className = bal >= 0 ? 'text-green' : 'text-red';
+      }
+
+      var countEl = document.getElementById('finTxnCount');
+      if (countEl) countEl.textContent = state.transactions.length + ' əməliyyat';
+
+      var tbody = document.getElementById('finTableBody');
+      if (tbody) {
+        if (state.transactions.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Maliyyə əməliyyatı yoxdur</td></tr>';
+        } else {
+          var html = '';
+          for (var j = 0; j < state.transactions.length; j++) {
+            var tx = state.transactions[j];
+            var isInc = tx.type === 'income';
+            html += '<tr>' +
+              '<td>' + escapeHtml(tx.date) + (tx.time ? ' ' + escapeHtml(tx.time) : '') + '</td>' +
+              '<td><span class="badge ' + (isInc ? 'badge-income' : 'badge-expense') + '">' + (isInc ? 'Mədaxil' : 'Məxaric') + '</span></td>' +
+              '<td>' + escapeHtml(tx.category) + '</td>' +
+              '<td>' + escapeHtml(tx.description || '—') + '</td>' +
+              '<td style="text-align:right; font-weight:bold;" class="' + (isInc ? 'text-green' : 'text-red') + '">' +
+              (isInc ? '+' : '−') + parseFloat(tx.amount).toFixed(2) + ' ₼</td>' +
+              '<td style="text-align:right;">' +
+              '<button type="button" class="btn-delete-txn" data-id="' + escapeHtml(tx.id) + '" style="min-height:30px; min-width:30px; padding:4px 8px; font-size:11px; color:#f87171;">Sil</button>' +
+              '</td></tr>';
+          }
+          tbody.innerHTML = html;
+        }
+      }
+    }
+
+    function renderBody() {
+      var startW = parseFloat(state.settings.startWeightKg) || 52.0;
+      var targetW = parseFloat(state.settings.targetWeightKg) || 65.0;
+
+      var sWEl = document.getElementById('bodyStartWeightVal');
+      if (sWEl) sWEl.textContent = startW.toFixed(1);
+      var tWEl = document.getElementById('bodyTargetWeightVal');
+      if (tWEl) tWEl.textContent = targetW.toFixed(1);
+
+      var latestW = null;
+      for (var i = state.days.length - 1; i >= 0; i--) {
+        if (state.days[i].weightKg && state.days[i].weightKg > 0) {
+          latestW = state.days[i].weightKg;
+          break;
+        }
+      }
+
+      var lEl = document.getElementById('bodyLatestWeightVal');
+      if (lEl) lEl.textContent = latestW ? latestW.toFixed(1) + ' kq' : '—';
+
+      var rEl = document.getElementById('bodyRemainingVal');
+      if (rEl) {
+        var rem = latestW ? Math.max(0, targetW - latestW) : Math.max(0, targetW - startW);
+        rEl.textContent = rem.toFixed(1) + ' kq';
+      }
+
+      var progBar = document.getElementById('bodyProgressBar');
+      if (progBar) {
+        var pct = 0;
+        if (latestW && targetW > startW) {
+          pct = Math.min(100, Math.max(0, Math.round(((latestW - startW) / (targetW - startW)) * 100)));
+        }
+        progBar.style.width = pct + '%';
+      }
+
+      // Populate today's values into inputs
+      var todayStr = getLocalDateString();
+      var todayRec = getDayRecord(todayStr) || {};
+      var nut = todayRec.nutrition || {};
+
+      var inW = document.getElementById('inpNutWeight');
+      if (inW && document.activeElement !== inW) inW.value = todayRec.weightKg || '';
+
+      var inCal = document.getElementById('inpNutCalories');
+      if (inCal && document.activeElement !== inCal) inCal.value = nut.caloriesKcal || '';
+
+      var inPro = document.getElementById('inpNutProtein');
+      if (inPro && document.activeElement !== inPro) inPro.value = nut.proteinG || '';
+
+      var inCarb = document.getElementById('inpNutCarbs');
+      if (inCarb && document.activeElement !== inCarb) inCarb.value = nut.carbsG || '';
+
+      var inFat = document.getElementById('inpNutFat');
+      if (inFat && document.activeElement !== inFat) inFat.value = nut.fatG || '';
+
+      var inWat = document.getElementById('inpNutWater');
+      if (inWat && document.activeElement !== inWat) inWat.value = nut.waterMl || '';
+
+      var selL = document.getElementById('selNutLunch');
+      if (selL) selL.value = nut.lunchStatus || 'not_logged';
+
+      // Table history
+      var tbody = document.getElementById('bodyTableBody');
+      if (tbody) {
+        var recordedDays = [];
+        for (var d = 0; d < state.days.length; d++) {
+          if (state.days[d].weightKg || state.days[d].nutrition) {
+            recordedDays.push(state.days[d]);
+          }
+        }
+        if (recordedDays.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Qeyd yoxdur</td></tr>';
+        } else {
+          var html = '';
+          for (var k = recordedDays.length - 1; k >= 0; k--) {
+            var item = recordedDays[k];
+            var n = item.nutrition || {};
+            var pcf = (n.proteinG || '0') + '/' + (n.carbsG || '0') + '/' + (n.fatG || '0');
+            html += '<tr>' +
+              '<td>' + escapeHtml(item.date) + '</td>' +
+              '<td>' + (item.weightKg ? item.weightKg.toFixed(1) + ' kq' : '—') + '</td>' +
+              '<td>' + (n.caloriesKcal ? n.caloriesKcal + ' kcal' : '—') + '</td>' +
+              '<td>' + pcf + '</td>' +
+              '<td>' + (n.waterMl ? n.waterMl + ' ml' : '—') + '</td>' +
+              '<td>' + escapeHtml(n.lunchStatus || '—') + '</td>' +
+              '</tr>';
+          }
+          tbody.innerHTML = html;
+        }
+      }
+    }
+
+    function renderIelts() {
+      var todayStr = getLocalDateString();
+      var todayRec = getDayRecord(todayStr) || {};
+      var il = todayRec.ielts || {};
+
+      var streak = calculateStreak(todayStr);
+      var strkEl = document.getElementById('ieltsStreakVal');
+      if (strkEl) strkEl.textContent = streak;
+
+      var targetMin = parseInt(state.settings.ieltsDailyMinuteTarget, 10) || 120;
+      var targEl = document.getElementById('ieltsTargetMinVal');
+      if (targEl) targEl.textContent = targetMin;
+
+      var totMin = getIeltsMinutes(il);
+      var totEl = document.getElementById('ieltsTotalMinVal');
+      if (totEl) totEl.textContent = totMin;
+
+      var pct = targetMin > 0 ? Math.round((totMin / targetMin) * 100) : 0;
+      var pctEl = document.getElementById('ieltsPercentSub');
+      if (pctEl) pctEl.textContent = 'Hədəf: ' + pct + '%';
+
+      var inR = document.getElementById('inpIeltsReading');
+      if (inR && document.activeElement !== inR) inR.value = il.readingMinutes || '';
+
+      var inL = document.getElementById('inpIeltsListening');
+      if (inL && document.activeElement !== inL) inL.value = il.listeningMinutes || '';
+
+      var inW = document.getElementById('inpIeltsWriting');
+      if (inW && document.activeElement !== inW) inW.value = il.writingMinutes || '';
+
+      var inS = document.getElementById('inpIeltsSpeaking');
+      if (inS && document.activeElement !== inS) inS.value = il.speakingMinutes || '';
+
+      var inN = document.getElementById('inpIeltsNotes');
+      if (inN && document.activeElement !== inN) inN.value = il.notes || '';
+
+      // IELTS Table
+      var tbody = document.getElementById('ieltsTableBody');
+      if (tbody) {
+        var ieltsDays = [];
+        for (var i = 0; i < state.days.length; i++) {
+          if (state.days[i].ielts || (state.days[i].checklist && state.days[i].checklist.ieltsRating)) {
+            ieltsDays.push(state.days[i]);
+          }
+        }
+        if (ieltsDays.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="empty-state">IELTS qeydi yoxdur</td></tr>';
+        } else {
+          var html = '';
+          for (var j = ieltsDays.length - 1; j >= 0; j--) {
+            var d = ieltsDays[j];
+            var it = d.ielts || {};
+            var r = (d.checklist && d.checklist.ieltsRating) ? d.checklist.ieltsRating + '/5' : '—';
+            html += '<tr>' +
+              '<td>' + escapeHtml(d.date) + '</td>' +
+              '<td>' + (it.readingMinutes || 0) + '</td>' +
+              '<td>' + (it.listeningMinutes || 0) + '</td>' +
+              '<td>' + (it.writingMinutes || 0) + '</td>' +
+              '<td>' + (it.speakingMinutes || 0) + '</td>' +
+              '<td style="font-weight:bold;">' + getIeltsMinutes(it) + '</td>' +
+              '<td>' + r + '</td>' +
+              '<td>' + escapeHtml(it.notes || '—') + '</td>' +
+              '</tr>';
+          }
+          tbody.innerHTML = html;
+        }
+      }
+    }
+
+    function renderSentence() {
+      var todayStr = getLocalDateString();
+      var todayRec = getDayRecord(todayStr) || {};
+
+      var txt = document.getElementById('txtMainSentence');
+      if (txt && document.activeElement !== txt) {
+        txt.value = todayRec.dailySentence || '';
+        var cnt = document.getElementById('mainSentenceCount');
+        if (cnt) cnt.textContent = txt.value.length + ' / 240';
+      }
+
+      var sentences = [];
+      for (var i = 0; i < state.days.length; i++) {
+        if (state.days[i].dailySentence && state.days[i].dailySentence.length > 0) {
+          sentences.push(state.days[i]);
+        }
+      }
+      var countBadge = document.getElementById('sentenceHistoryCount');
+      if (countBadge) countBadge.textContent = sentences.length + ' qeyd';
+
+      var tbody = document.getElementById('sentenceTableBody');
+      if (tbody) {
+        if (sentences.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" class="empty-state">Heç bir cümlə yazılmayıb</td></tr>';
+        } else {
+          var html = '';
+          for (var j = sentences.length - 1; j >= 0; j--) {
+            html += '<tr>' +
+              '<td>“' + escapeHtml(sentences[j].dailySentence) + '”</td>' +
+              '<td style="text-align:right; color:#888;">' + escapeHtml(sentences[j].date) + '</td>' +
+              '</tr>';
+          }
+          tbody.innerHTML = html;
+        }
+      }
+    }
+
+    /* Tab Switching */
+    var currentTabId = 'Overview';
+    function switchTab(tabName) {
+      currentTabId = tabName;
+      var tabs = ['Overview', 'Finance', 'Body', 'Ielts', 'Sentence'];
+      for (var i = 0; i < tabs.length; i++) {
+        var t = tabs[i];
+        var view = document.getElementById('view' + t);
+        var btn = document.getElementById('tabNav' + t);
+        if (t === tabName) {
+          if (view) view.style.display = 'block';
+          if (btn) btn.className = 'tab-btn active';
+        } else {
+          if (view) view.style.display = 'none';
+          if (btn) btn.className = 'tab-btn';
+        }
+      }
+      if (tabName === 'Overview') renderOverview();
+      else if (tabName === 'Finance') renderFinance();
+      else if (tabName === 'Body') renderBody();
+      else if (tabName === 'Ielts') renderIelts();
+      else if (tabName === 'Sentence') renderSentence();
+    }
+
+    /* AI JSON Sync Engine (Supports both Daily Flat & Days Array, Idempotent Transactions) */
+    var SAMPLE_JSON = {
+      "schemaVersion": 1,
+      "date": "2026-10-25",
+      "countdownTargetDate": "2027-01-01",
+      "weightKg": 52.4,
+      "nutrition": {
+        "caloriesKcal": 2380,
+        "proteinG": 96,
+        "carbsG": 310,
+        "fatG": 72,
+        "waterMl": 2100,
+        "lunchStatus": "done",
+        "lunchOrCalorieBomb": true
+      },
+      "checklist": {
+        "fap": false,
+        "ieltsRating": 4,
+        "leadsOrTasksDone": true
+      },
+      "ielts": {
+        "readingMinutes": 35,
+        "listeningMinutes": 25,
+        "writingMinutes": 0,
+        "speakingMinutes": 15,
+        "notes": "Reading passage 2 və speaking məşqi."
+      },
+      "description": "Günün qısa qeydi.",
+      "dailySentence": "Bu gün kiçik addımlarımı davam etdirdim.",
+      "transactions": [
+        {
+          "id": "txn-2026-10-25-income-01",
+          "date": "2026-10-25",
+          "type": "income",
+          "amount": 45,
+          "currency": "AZN",
+          "category": "Freelance",
+          "description": "Landing page ilkin ödənişi",
+          "time": "14:30"
+        },
+        {
+          "id": "txn-2026-10-25-expense-01",
+          "date": "2026-10-25",
+          "type": "expense",
+          "amount": 8.5,
+          "currency": "AZN",
+          "category": "Food",
+          "description": "Nahar",
+          "time": "13:05"
+        }
+      ]
+    };
+
+    function validateSingleDay(day, path) {
+      var errors = [];
+      if (!day || typeof day !== 'object') {
+        errors.push(path + ': Obyekt olmalıdır');
+        return errors;
+      }
+      if (!day.date || typeof day.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day.date)) {
+        errors.push(path + '.date: YYYY-MM-DD tələb olunur');
+      }
+      if (day.weightKg !== undefined) {
+        if (typeof day.weightKg !== 'number' || isNaN(day.weightKg) || day.weightKg <= 0) {
+          errors.push(path + '.weightKg: Müsbət rəqəm olmalıdır');
+        }
+      }
+      if (day.nutrition !== undefined) {
+        var n = day.nutrition;
+        if (typeof n !== 'object' || n === null) {
+          errors.push(path + '.nutrition: Obyekt olmalıdır');
+        } else {
+          var numFields = ['caloriesKcal', 'proteinG', 'carbsG', 'fatG', 'waterMl'];
+          for (var i = 0; i < numFields.length; i++) {
+            var f = numFields[i];
+            if (n[f] !== undefined && (typeof n[f] !== 'number' || n[f] < 0)) {
+              errors.push(path + '.nutrition.' + f + ': Mənfi olmayan rəqəm olmalıdır');
+            }
+          }
+          if (n.lunchStatus !== undefined) {
+            var allowed = ['not_logged', 'planned', 'done', 'skipped'];
+            if (!arrayIncludes(allowed, n.lunchStatus)) {
+              errors.push(path + '.nutrition.lunchStatus: ' + allowed.join(', ') + ' olmalıdır');
+            }
+          }
+          if (n.lunchOrCalorieBomb !== undefined && typeof n.lunchOrCalorieBomb !== 'boolean') {
+            errors.push(path + '.nutrition.lunchOrCalorieBomb: boolean olmalıdır');
+          }
+        }
+      }
+      if (day.checklist !== undefined) {
+        var c = day.checklist;
+        if (typeof c !== 'object' || c === null) {
+          errors.push(path + '.checklist: Obyekt olmalıdır');
+        } else {
+          if (c.fap !== undefined && typeof c.fap !== 'boolean') errors.push(path + '.checklist.fap: boolean olmalıdır');
+          if (c.leadsOrTasksDone !== undefined && typeof c.leadsOrTasksDone !== 'boolean') errors.push(path + '.checklist.leadsOrTasksDone: boolean olmalıdır');
+          if (c.lunchOrCalorieBomb !== undefined && typeof c.lunchOrCalorieBomb !== 'boolean') errors.push(path + '.checklist.lunchOrCalorieBomb: boolean olmalıdır');
+          if (c.ieltsRating !== undefined) {
+            var ir = c.ieltsRating;
+            if (typeof ir !== 'number' || ir < 1 || ir > 5 || Math.floor(ir) !== ir) {
+              errors.push(path + '.checklist.ieltsRating: 1-5 arasında tam ədəd olmalıdır');
+            }
+          }
+        }
+      }
+      if (day.ielts !== undefined) {
+        var il = day.ielts;
+        if (typeof il !== 'object' || il === null) {
+          errors.push(path + '.ielts: Obyekt olmalıdır');
+        } else {
+          var iFields = ['readingMinutes', 'listeningMinutes', 'writingMinutes', 'speakingMinutes'];
+          for (var m = 0; m < iFields.length; m++) {
+            var mf = iFields[m];
+            if (il[mf] !== undefined && (typeof il[mf] !== 'number' || il[mf] < 0 || il[mf] > 1440)) {
+              errors.push(path + '.ielts.' + mf + ': 0-1440 dəqiqə olmalıdır');
+            }
+          }
+        }
+      }
+      if (day.dailySentence !== undefined && typeof day.dailySentence !== 'string') {
+        errors.push(path + '.dailySentence: Mətn olmalıdır');
+      }
+      return errors;
+    }
+
+    function validateSyncPayload(data) {
+      var errors = [];
+      if (!data || typeof data !== 'object') {
+        return ['JSON kök elementi düzgün obyekt olmalıdır'];
+      }
+      if (data.schemaVersion !== 1) {
+        errors.push('schemaVersion: Dəqiq 1 olmalıdır');
+      }
+
+      // Check if flat daily object or multiple days array
+      if (data.days && Array.isArray(data.days)) {
+        for (var i = 0; i < data.days.length; i++) {
+          var dErrs = validateSingleDay(data.days[i], 'days[' + i + ']');
+          for (var e = 0; e < dErrs.length; e++) errors.push(dErrs[e]);
+        }
+      } else if (data.date) {
+        var sErrs = validateSingleDay(data, 'root');
+        for (var se = 0; se < sErrs.length; se++) errors.push(sErrs[se]);
+      } else {
+        errors.push('JSON daxilində "date" və ya "days[]" sahəsi tələb olunur');
+      }
+
+      // Transactions validation
+      if (data.transactions !== undefined) {
+        if (!Array.isArray(data.transactions)) {
+          errors.push('transactions: Massiv (array) olmalıdır');
+        } else {
+          for (var t = 0; t < data.transactions.length; t++) {
+            var tx = data.transactions[t];
+            var tp = 'transactions[' + t + ']';
+            if (!tx || typeof tx !== 'object') {
+              errors.push(tp + ': Obyekt olmalıdır');
+              continue;
+            }
+            if (!tx.id || typeof tx.id !== 'string') errors.push(tp + '.id: Tələb olunur');
+            if (!tx.date || typeof tx.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(tx.date)) {
+              errors.push(tp + '.date: YYYY-MM-DD tələb olunur');
+            }
+            if (tx.type !== 'income' && tx.type !== 'expense') {
+              errors.push(tp + '.type: "income" və ya "expense" olmalıdır');
+            }
+            if (typeof tx.amount !== 'number' || isNaN(tx.amount) || tx.amount <= 0) {
+              errors.push(tp + '.amount: Sıfırdan böyük rəqəm olmalıdır');
+            }
+            if (tx.currency && tx.currency !== 'AZN') {
+              errors.push(tp + '.currency: "AZN" olmalıdır');
+            }
+          }
+        }
+      }
+      return errors;
+    }
+
+    function executeAtomicSync(payload) {
+      // 1. Process Day records
+      var daysToMerge = [];
+      if (Array.isArray(payload.days)) {
+        daysToMerge = payload.days;
+      } else if (payload.date) {
+        var dObj = { date: payload.date };
+        if (payload.weightKg !== undefined) dObj.weightKg = payload.weightKg;
+        if (payload.nutrition) dObj.nutrition = payload.nutrition;
+        if (payload.checklist) dObj.checklist = payload.checklist;
+        if (payload.ielts) dObj.ielts = payload.ielts;
+        if (payload.description !== undefined) dObj.description = payload.description;
+        if (payload.dailySentence !== undefined) dObj.dailySentence = payload.dailySentence;
+        daysToMerge.push(dObj);
+      }
+
+      for (var i = 0; i < daysToMerge.length; i++) {
+        var item = daysToMerge[i];
+        upsertDayRecord(item.date, item);
+      }
+
+      // 2. Process Transactions (Idempotent by id)
+      if (Array.isArray(payload.transactions)) {
+        for (var j = 0; j < payload.transactions.length; j++) {
+          var incomingTx = payload.transactions[j];
+          var existingIdx = findIndex(state.transactions, function(t) {
+            return t.id === incomingTx.id;
+          });
+          if (existingIdx >= 0) {
+            state.transactions[existingIdx] = incomingTx;
+          } else {
+            state.transactions.unshift(incomingTx);
+          }
+        }
+      }
+
+      // 3. Process Countdown Target if provided
+      if (payload.countdownTargetDate) {
+        state.settings.countdownTargetDate = payload.countdownTargetDate;
+      }
+
+      saveState();
+      initCountdown();
+      switchTab(currentTabId);
+    }
+
+    /* Remote Sync (ES5 + XMLHttpRequest). LocalStorage stays the source for the UI;
+       this only pushes/pulls the same state, and never overwrites newer server data silently. */
+    var REMOTE_KEY = 'disciplineos:remote';
+    var remote = { revision: null, dirty: false, busy: false };
+
+    function loadRemoteMeta() {
+      var raw = getStorageItem(REMOTE_KEY);
+      if (!raw) return;
+      try {
+        var m = JSON.parse(raw);
+        remote.revision = typeof m.revision === 'number' ? m.revision : null;
+        remote.dirty = !!m.dirty;
+      } catch (e) { /* ignore corrupt meta */ }
+    }
+
+    function saveRemoteMeta() {
+      setStorageItem(REMOTE_KEY, JSON.stringify({ revision: remote.revision, dirty: remote.dirty }));
+      setRemoteLabel();
+    }
+
+    function setRemoteLabel() {
+      var el = document.getElementById('remoteSyncLabel');
+      if (!el) return;
+      el.textContent = remote.dirty ? 'LOCAL' : 'SYNC';
+    }
+
+    function markRemoteDirty() {
+      if (!remote.dirty) {
+        remote.dirty = true;
+        saveRemoteMeta();
+      }
+    }
+
+    function remoteRequest(method, url, body, cb) {
+      var xhr = new XMLHttpRequest();
+      xhr.open(method, url, true);
+      xhr.timeout = 15000;
+      xhr.setRequestHeader('X-Discipline-Request', '1');
+      if (body !== undefined) xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        var json = null;
+        try { json = JSON.parse(xhr.responseText); } catch (e) { json = null; }
+        cb(xhr.status, json);
+      };
+      xhr.onerror = function() { cb(0, null); };
+      xhr.ontimeout = function() { cb(0, null); };
+      xhr.send(body !== undefined ? JSON.stringify(body) : null);
+    }
+
+    function setRemoteFeedback(msg, isError) {
+      var box = document.getElementById('remoteFeedbackBox');
+      if (!box) return;
+      box.style.display = 'block';
+      box.style.backgroundColor = isError ? '#4c0519' : '#052e16';
+      box.style.color = isError ? '#fda4af' : '#86efac';
+      box.textContent = msg;
+    }
+
+    function openRemoteModal() {
+      var body = document.getElementById('remoteBody');
+      var fb = document.getElementById('remoteFeedbackBox');
+      if (fb) fb.style.display = 'none';
+      if (body) {
+        body.textContent = remote.dirty
+          ? 'Yerli dəyişikliklər hələ serverdə deyil (yaddaşda saxlanılıb).'
+          : 'Bütün dəyişikliklər serverdə saxlanılıb.';
+      }
+      openModal('modalRemote');
+    }
+
+    function buildSyncPayload() {
+      var days = state.days.slice(-400);
+      var txns = state.transactions.slice(0, 5000);
+      return {
+        schemaVersion: 1,
+        countdownTargetDate: state.settings.countdownTargetDate,
+        days: days,
+        transactions: txns
+      };
+    }
+
+    function remoteLogin(cb) {
+      var pw = document.getElementById('inpRemotePassword').value;
+      remoteRequest('POST', '/api/v1/login', { password: pw }, function(status) {
+        if (status === 200) {
+          document.getElementById('inpRemotePassword').value = '';
+          cb();
+        } else if (status === 429) {
+          setRemoteFeedback('Çox cəhd. Bir az sonra yenidən cəhd edin.', true);
+        } else if (status === 0) {
+          setRemoteFeedback('Serverə qoşulmaq mümkün olmadı.', true);
+        } else {
+          setRemoteFeedback('Parol səhvdir.', true);
+        }
+      });
+    }
+
+    function remoteSyncNow() {
+      if (remote.busy) return;
+      remote.busy = true;
+      setRemoteFeedback('Göndərilir...', false);
+      if (document.getElementById('remoteLoginBox').style.display === 'block' && document.getElementById('inpRemotePassword').value) {
+        remote.busy = false;
+        return remoteLogin(function() { document.getElementById('remoteLoginBox').style.display = 'none'; remoteSyncNow(); });
+      }
+      remoteRequest('POST', '/api/v1/sync', { baseRevision: remote.revision === null ? 0 : remote.revision, payload: buildSyncPayload() }, function(status, json) {
+        remote.busy = false;
+        if (status === 200 && json) {
+          remote.revision = json.revision;
+          remote.dirty = false;
+          saveRemoteMeta();
+          setRemoteFeedback('Sinxronizasiya tamamlandı. Rev. ' + json.revision, false);
+        } else if (status === 409) {
+          setRemoteFeedback('Serverdə daha yeni məlumat var. Sinxronizasiya dayandırıldı, yerli məlumat silinməyib. Əvvəl JSON ixrac edin.', true);
+        } else if (status === 401) {
+          document.getElementById('remoteLoginBox').style.display = 'block';
+          setRemoteFeedback('Sessiya bitib. Parolu daxil edib yenidən sinxronlaşdırın.', true);
+        } else {
+          setRemoteFeedback('Serverə qoşulmaq mümkün olmadı. Yerli məlumat qorunub, sonra yenidən cəhd edin.', true);
+        }
+      });
+    }
+
+    /* Restore from server. Never overwrites local data without an explicit choice. ES5 only. */
+    var pendingServerState = null;
+
+    function localHasData() {
+      return state.days.length > 0 || state.transactions.length > 0;
+    }
+
+    function isValidServerState(j) {
+      return !!(j && typeof j.revision === 'number' && j.state && typeof j.state === 'object' &&
+        Array.isArray(j.state.days) && Array.isArray(j.state.transactions));
+    }
+
+    function describeData(days, txs, rev) {
+      return 'Rev. ' + rev + ' · gün: ' + days + ' · tranzaksiya: ' + txs;
+    }
+
+    function showRestoreChoice(text, compare) {
+      var box = document.getElementById('remoteChoiceBox');
+      document.getElementById('remoteChoiceText').textContent = text;
+      document.getElementById('remoteCompare').value = compare;
+      document.getElementById('btnRemoteUseServer').style.display = 'inline-block';
+      document.getElementById('remoteFeedbackBox').style.display = 'none';
+      box.style.display = 'block';
+    }
+
+    function remoteRestoreFromServer() {
+      if (remote.busy) return;
+      remote.busy = true;
+      setRemoteFeedback('Server yoxlanır...', false);
+      remoteRequest('GET', '/api/v1/state', undefined, function(status, json) {
+        remote.busy = false;
+        if (status === 401) {
+          document.getElementById('remoteLoginBox').style.display = 'block';
+          setRemoteFeedback('Sessiya bitib. Parolu daxil edib yenidən cəhd edin.', true);
+          return;
+        }
+        if (status !== 200 || !isValidServerState(json)) {
+          setRemoteFeedback('Serverdən məlumat alına bilmədi. Yerli məlumat dəyişdirilmədi.', true);
+          return;
+        }
+        var sDays = json.state.days.length, sTx = json.state.transactions.length;
+        var localDesc = describeData(state.days.length, state.transactions.length, remote.revision === null ? 0 : remote.revision);
+        var serverDesc = describeData(sDays, sTx, json.revision);
+        var compare = 'Cihaz: ' + localDesc + '\nServer: ' + serverDesc;
+        if (!localHasData()) {
+          pendingServerState = json;
+          showRestoreChoice('Cihazda məlumat yoxdur. Serverdəki məlumatı bu cihaza bərpa etmək olar.', compare);
+          return;
+        }
+        if (remote.revision === json.revision && !remote.dirty) {
+          setRemoteFeedback('Cihaz və server artıq eynidir (Rev. ' + json.revision + ').', false);
+          return;
+        }
+        pendingServerState = json;
+        showRestoreChoice('Cihaz və server fərqli revision-dadır. Seçim edin: cihazdakını saxlayın, ya serverdəkini bərpa edin, ya da hər ikisini JSON kimi ixrac edib əl ilə həll edin.', compare);
+      });
+    }
+
+    function applyServerState(j) {
+      var next = { settings: getDefaultSettings(), days: j.state.days, transactions: j.state.transactions };
+      if (j.state.settings && typeof j.state.settings === 'object') {
+        for (var k in j.state.settings) {
+          if (j.state.settings.hasOwnProperty(k)) next.settings[k] = j.state.settings[k];
+        }
+      }
+      var text;
+      try { text = JSON.stringify(next); } catch (e) { return false; }
+      var previous = getStorageItem(STORAGE_KEY);
+      if (!setStorageItem(STORAGE_KEY, text)) {
+        if (previous !== null) setStorageItem(STORAGE_KEY, previous);
+        return false;
+      }
+      remote.revision = j.revision;
+      remote.dirty = false;
+      saveRemoteMeta();
+      loadState();
+      if (typeof switchTab === 'function') switchTab(currentTabId);
+      return true;
+    }
+
+    function remoteUseServer() {
+      if (!pendingServerState) return;
+      if (applyServerState(pendingServerState)) {
+        document.getElementById('remoteChoiceBox').style.display = 'none';
+        setRemoteFeedback('Serverdəki məlumat bərpa edildi. Rev. ' + remote.revision, false);
+      } else {
+        setRemoteFeedback('Bərpa alınmad. Cihazdakı məlumat qorunub.', true);
+      }
+    }
+
+    function remoteKeepLocal() {
+      pendingServerState = null;
+      document.getElementById('remoteChoiceBox').style.display = 'none';
+      setRemoteFeedback('Cihazdakı məlumat saxlandı. İstərsən əvvəl JSON ixrac edin.', false);
+    }
+
+    /* Event Listeners Setup (DOM Level 2, 100% iOS 9 Safe) */
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Load Data
+      loadState();
+
+      // 2. Init Countdown
+      initCountdown();
+
+      // 3. Tabs Click Listeners
+      var tabMap = [
+        { id: 'tabNavOverview', name: 'Overview' },
+        { id: 'tabNavFinance', name: 'Finance' },
+        { id: 'tabNavBody', name: 'Body' },
+        { id: 'tabNavIelts', name: 'Ielts' },
+        { id: 'tabNavSentence', name: 'Sentence' }
+      ];
+      for (var i = 0; i < tabMap.length; i++) {
+        (function(t) {
+          var el = document.getElementById(t.id);
+          if (el) {
+            el.addEventListener('click', function() {
+              switchTab(t.name);
+            });
+          }
+        })(tabMap[i]);
+      }
+
+      // 3b. Remote sync wiring
+      loadRemoteMeta();
+      setRemoteLabel();
+      var btnRemote = document.getElementById('btnHeaderRemoteSync');
+      if (btnRemote) btnRemote.addEventListener('click', openRemoteModal);
+      var btnRemoteAction = document.getElementById('btnRemoteAction');
+      if (btnRemoteAction) btnRemoteAction.addEventListener('click', remoteSyncNow);
+      var btnRemoteRestore = document.getElementById('btnRemoteRestore');
+      if (btnRemoteRestore) btnRemoteRestore.addEventListener('click', remoteRestoreFromServer);
+      var btnUseServer = document.getElementById('btnRemoteUseServer');
+      if (btnUseServer) btnUseServer.addEventListener('click', remoteUseServer);
+      var btnKeepLocal = document.getElementById('btnRemoteKeepLocal');
+      if (btnKeepLocal) btnKeepLocal.addEventListener('click', remoteKeepLocal);
+      var btnRemoteClose = document.getElementById('btnRemoteClose');
+      if (btnRemoteClose) btnRemoteClose.addEventListener('click', function() { closeModal('modalRemote'); });
+      var btnCloseRemote = document.getElementById('btnCloseRemoteModal');
+      if (btnCloseRemote) btnCloseRemote.addEventListener('click', function() { closeModal('modalRemote'); });
+
+      // 4. Header Action Buttons
+      var btnSync = document.getElementById('btnHeaderSync');
+      if (btnSync) {
+        btnSync.addEventListener('click', function() {
+          var feed = document.getElementById('syncFeedbackBox');
+          if (feed) feed.style.display = 'none';
+          openModal('modalSync');
+        });
+      }
+
+      var btnSentence = document.getElementById('btnHeaderSentence');
+      if (btnSentence) {
+        btnSentence.addEventListener('click', function() {
+          switchTab('Sentence');
+        });
+      }
+
+      var btnSettings = document.getElementById('btnHeaderSettings');
+      if (btnSettings) {
+        btnSettings.addEventListener('click', function() {
+          document.getElementById('setInpCountdownLabel').value = state.settings.countdownLabel || 'Yeni il';
+          document.getElementById('setInpCountdownDate').value = state.settings.countdownTargetDate || '2027-01-01';
+          document.getElementById('setInpStartWeight').value = state.settings.startWeightKg || 52;
+          document.getElementById('setInpTargetWeight').value = state.settings.targetWeightKg || 65;
+          document.getElementById('setInpCalorieTarget').value = state.settings.dailyCalorieTargetKcal || 2600;
+          document.getElementById('setInpBudget').value = state.settings.monthlyBudget || 300;
+          document.getElementById('setInpIeltsMinutes').value = state.settings.ieltsDailyMinuteTarget || 120;
+          openModal('modalSettings');
+        });
+      }
+
+      var btnExport = document.getElementById('btnHeaderExport');
+      if (btnExport) {
+        btnExport.addEventListener('click', function() {
+          var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
+          var a = document.createElement('a');
+          a.setAttribute('href', dataStr);
+          a.setAttribute('download', 'disciplineos-export-' + getLocalDateString() + '.json');
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          updateStatusIndicator('Məlumatlar ixrac edildi');
+        });
+      }
+
+      // 5. Checklist Listeners in Overview
+      var chkF = document.getElementById('chkOvFap');
+      if (chkF) {
+        chkF.addEventListener('change', function() {
+          upsertDayRecord(getLocalDateString(), {
+            checklist: { fap: chkF.checked }
+          });
+        });
+      }
+
+      var chkL = document.getElementById('chkOvLunchBomb');
+      if (chkL) {
+        chkL.addEventListener('change', function() {
+          upsertDayRecord(getLocalDateString(), {
+            checklist: { lunchOrCalorieBomb: chkL.checked },
+            nutrition: { lunchOrCalorieBomb: chkL.checked }
+          });
+        });
+      }
+
+      var chkLd = document.getElementById('chkOvLeads');
+      if (chkLd) {
+        chkLd.addEventListener('change', function() {
+          upsertDayRecord(getLocalDateString(), {
+            checklist: { leadsOrTasksDone: chkLd.checked }
+          });
+        });
+      }
+
+      var rBtns = document.querySelectorAll('.rate-btn');
+      for (var r = 0; r < rBtns.length; r++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            var val = parseInt(btn.getAttribute('data-r'), 10);
+            upsertDayRecord(getLocalDateString(), {
+              checklist: { ieltsRating: val }
+            });
+            renderOverview();
+          });
+        })(rBtns[r]);
+      }
+
+      var txtDesc = document.getElementById('txtOvDescription');
+      if (txtDesc) {
+        txtDesc.addEventListener('blur', function() {
+          upsertDayRecord(getLocalDateString(), {
+            description: txtDesc.value
+          });
+        });
+      }
+
+      // 6. Daily Sentence
+      var saveOvSent = document.getElementById('btnSaveOvSentence');
+      if (saveOvSent) {
+        saveOvSent.addEventListener('click', function() {
+          var val = document.getElementById('txtOvSentence').value.replace(/[\r\n]+/g, ' ');
+          upsertDayRecord(getLocalDateString(), { dailySentence: val });
+          renderOverview();
+          updateStatusIndicator('Cümlə yadda saxlanıldı');
+        });
+      }
+
+      var txtOvS = document.getElementById('txtOvSentence');
+      if (txtOvS) {
+        txtOvS.addEventListener('input', function() {
+          if (txtOvS.value.indexOf('\n') >= 0) {
+            txtOvS.value = txtOvS.value.replace(/[\r\n]+/g, ' ');
+          }
+          var cnt = document.getElementById('ovSentenceCount');
+          if (cnt) cnt.textContent = txtOvS.value.length + ' / 240';
+        });
+      }
+
+      var saveMainSent = document.getElementById('btnSaveMainSentence');
+      if (saveMainSent) {
+        saveMainSent.addEventListener('click', function() {
+          var val = document.getElementById('txtMainSentence').value.replace(/[\r\n]+/g, ' ');
+          upsertDayRecord(getLocalDateString(), { dailySentence: val });
+          renderSentence();
+          renderOverview();
+          updateStatusIndicator('Cümlə yadda saxlanıldı');
+        });
+      }
+
+      var txtMainS = document.getElementById('txtMainSentence');
+      if (txtMainS) {
+        txtMainS.addEventListener('input', function() {
+          if (txtMainS.value.indexOf('\n') >= 0) {
+            txtMainS.value = txtMainS.value.replace(/[\r\n]+/g, ' ');
+          }
+          var cnt = document.getElementById('mainSentenceCount');
+          if (cnt) cnt.textContent = txtMainS.value.length + ' / 240';
+        });
+      }
+
+      // 7. Nutrition Form
+      var formNut = document.getElementById('formNutrition');
+      if (formNut) {
+        formNut.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var w = parseFloat(document.getElementById('inpNutWeight').value);
+          var cal = parseInt(document.getElementById('inpNutCalories').value, 10);
+          var p = parseInt(document.getElementById('inpNutProtein').value, 10);
+          var c = parseInt(document.getElementById('inpNutCarbs').value, 10);
+          var f = parseInt(document.getElementById('inpNutFat').value, 10);
+          var wat = parseInt(document.getElementById('inpNutWater').value, 10);
+          var lStatus = document.getElementById('selNutLunch').value;
+
+          var partial = {
+            nutrition: {
+              caloriesKcal: isNaN(cal) ? 0 : Math.max(0, cal),
+              proteinG: isNaN(p) ? 0 : Math.max(0, p),
+              carbsG: isNaN(c) ? 0 : Math.max(0, c),
+              fatG: isNaN(f) ? 0 : Math.max(0, f),
+              waterMl: isNaN(wat) ? 0 : Math.max(0, wat),
+              lunchStatus: lStatus
+            }
+          };
+          if (!isNaN(w) && w > 0) {
+            partial.weightKg = parseFloat(w.toFixed(1));
+          }
+
+          upsertDayRecord(getLocalDateString(), partial);
+          renderBody();
+          renderOverview();
+          updateStatusIndicator('Qidalanma saxlanıldı');
+        });
+      }
+
+      // 8. IELTS Form
+      var formIl = document.getElementById('formIelts');
+      if (formIl) {
+        formIl.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var r = parseInt(document.getElementById('inpIeltsReading').value, 10) || 0;
+          var l = parseInt(document.getElementById('inpIeltsListening').value, 10) || 0;
+          var w = parseInt(document.getElementById('inpIeltsWriting').value, 10) || 0;
+          var s = parseInt(document.getElementById('inpIeltsSpeaking').value, 10) || 0;
+          var notes = document.getElementById('inpIeltsNotes').value;
+
+          upsertDayRecord(getLocalDateString(), {
+            ielts: {
+              readingMinutes: Math.min(1440, Math.max(0, r)),
+              listeningMinutes: Math.min(1440, Math.max(0, l)),
+              writingMinutes: Math.min(1440, Math.max(0, w)),
+              speakingMinutes: Math.min(1440, Math.max(0, s)),
+              notes: notes
+            }
+          });
+          renderIelts();
+          renderOverview();
+          updateStatusIndicator('IELTS dəqiqələri saxlanıldı');
+        });
+      }
+
+      // 9. Finance Buttons and Form
+      var btnInc = document.getElementById('btnOpenAddIncome');
+      if (btnInc) {
+        btnInc.addEventListener('click', function() {
+          openTxnModal('income');
+        });
+      }
+      var btnExp = document.getElementById('btnOpenAddExpense');
+      if (btnExp) {
+        btnExp.addEventListener('click', function() {
+          openTxnModal('expense');
+        });
+      }
+
+      function openTxnModal(defaultType) {
+        document.getElementById('txnInpHiddenId').value = '';
+        document.getElementById('txnInpType').value = defaultType || 'expense';
+        document.getElementById('txnInpAmount').value = '';
+        document.getElementById('txnInpDate').value = getLocalDateString();
+        var now = new Date();
+        var hh = (now.getHours() < 10 ? '0' : '') + now.getHours();
+        var mm = (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+        document.getElementById('txnInpTime').value = hh + ':' + mm;
+        document.getElementById('txnInpCategory').value = defaultType === 'income' ? 'Freelance' : 'Food';
+        document.getElementById('txnInpDesc').value = '';
+        document.getElementById('txnModalTitle').textContent = defaultType === 'income' ? 'Yeni Mədaxil (+)' : 'Yeni Məxaric (−)';
+        openModal('modalTransaction');
+      }
+
+      var formTxn = document.getElementById('formTransaction');
+      if (formTxn) {
+        formTxn.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var id = document.getElementById('txnInpHiddenId').value;
+          var type = document.getElementById('txnInpType').value;
+          var amt = parseFloat(document.getElementById('txnInpAmount').value);
+          var dt = document.getElementById('txnInpDate').value;
+          var tm = document.getElementById('txnInpTime').value;
+          var cat = document.getElementById('txnInpCategory').value;
+          var desc = document.getElementById('txnInpDesc').value;
+
+          if (isNaN(amt) || amt <= 0 || !dt || !cat) {
+            alert('Zəhmət olmasa məbləğ, tarix və kateqoriyanı düzgün daxil edin.');
+            return;
+          }
+
+          var txnObj = {
+            id: id || ('txn-' + (new Date().getTime()) + '-' + Math.floor(Math.random() * 1000)),
+            type: type,
+            amount: parseFloat(amt.toFixed(2)),
+            currency: 'AZN',
+            date: dt,
+            time: tm,
+            category: cat,
+            description: desc
+          };
+
+          if (id) {
+            var idx = findIndex(state.transactions, function(t) { return t.id === id; });
+            if (idx >= 0) state.transactions[idx] = txnObj;
+          } else {
+            state.transactions.unshift(txnObj);
+          }
+
+          saveState();
+          closeModal('modalTransaction');
+          renderFinance();
+          renderOverview();
+        });
+      }
+
+      // Delete transaction delegation
+      document.addEventListener('click', function(e) {
+        var target = e.target;
+        if (target && target.className && target.className.indexOf('btn-delete-txn') >= 0) {
+          var txId = target.getAttribute('data-id');
+          if (confirm('Bu maliyyə əməliyyatını silmək istədiyinizdən əminsiniz?')) {
+            var newTxns = [];
+            for (var i = 0; i < state.transactions.length; i++) {
+              if (state.transactions[i].id !== txId) {
+                newTxns.push(state.transactions[i]);
+              }
+            }
+            state.transactions = newTxns;
+            saveState();
+            renderFinance();
+            renderOverview();
+            updateStatusIndicator('Əməliyyat silindi');
+          }
+        }
+      });
+
+      // 10. Sync Modal Actions
+      var btnInject = document.getElementById('btnInjectSample');
+      if (btnInject) {
+        btnInject.addEventListener('click', function() {
+          document.getElementById('txtSyncInput').value = JSON.stringify(SAMPLE_JSON, null, 2);
+        });
+      }
+
+      var fileInp = document.getElementById('inpSyncFile');
+      if (fileInp) {
+        fileInp.addEventListener('change', function(e) {
+          var file = e.target.files ? e.target.files[0] : null;
+          if (file) {
+            if (file.size > 1048576) {
+              alert('Fayl ölçüsü 1 MB-dan böyük ola bilməz.');
+              return;
+            }
+            var reader = new FileReader();
+            reader.onload = function(evt) {
+              document.getElementById('txtSyncInput').value = evt.target.result;
+            };
+            reader.readAsText(file);
+          }
+        });
+      }
+
+      var btnDoSync = document.getElementById('btnExecuteSync');
+      if (btnDoSync) {
+        btnDoSync.addEventListener('click', function() {
+          var raw = document.getElementById('txtSyncInput').value;
+          var feed = document.getElementById('syncFeedbackBox');
+          if (!raw) {
+            feed.style.display = 'block';
+            feed.style.backgroundColor = '#4c0519';
+            feed.style.color = '#fda4af';
+            feed.textContent = 'Zəhmət olmasa JSON mətni daxil edin.';
+            return;
+          }
+
+          var parsed = null;
+          try {
+            parsed = JSON.parse(raw);
+          } catch (err) {
+            feed.style.display = 'block';
+            feed.style.backgroundColor = '#4c0519';
+            feed.style.color = '#fda4af';
+            feed.textContent = 'Sintaksis xətası: Düzgün JSON deyil (' + err.message + ')';
+            return;
+          }
+
+          var errors = validateSyncPayload(parsed);
+          if (errors.length > 0) {
+            feed.style.display = 'block';
+            feed.style.backgroundColor = '#4c0519';
+            feed.style.color = '#fda4af';
+            var errHtml = '<b>JSON Doğrulama Xətası:</b><br>';
+            for (var k = 0; k < errors.length; k++) {
+              errHtml += '• ' + escapeHtml(errors[k]) + '<br>';
+            }
+            feed.innerHTML = errHtml;
+            return;
+          }
+
+          // Valid -> Atomic Sync
+          executeAtomicSync(parsed);
+          closeModal('modalSync');
+          alert('Məlumatlar uğurla sinxronlaşdırıldı!');
+        });
+      }
+
+      // 11. Settings Form
+      var formSet = document.getElementById('formSettings');
+      if (formSet) {
+        formSet.addEventListener('submit', function(e) {
+          e.preventDefault();
+          state.settings.countdownLabel = document.getElementById('setInpCountdownLabel').value || 'Yeni il';
+          state.settings.countdownTargetDate = document.getElementById('setInpCountdownDate').value || '2027-01-01';
+          state.settings.startWeightKg = parseFloat(document.getElementById('setInpStartWeight').value) || 52;
+          state.settings.targetWeightKg = parseFloat(document.getElementById('setInpTargetWeight').value) || 65;
+          state.settings.dailyCalorieTargetKcal = parseInt(document.getElementById('setInpCalorieTarget').value, 10) || 2600;
+          state.settings.monthlyBudget = parseFloat(document.getElementById('setInpBudget').value) || 300;
+          state.settings.ieltsDailyMinuteTarget = parseInt(document.getElementById('setInpIeltsMinutes').value, 10) || 120;
+
+          saveState();
+          initCountdown();
+          closeModal('modalSettings');
+          switchTab(currentTabId);
+          updateStatusIndicator('Tənzimləmələr saxlanıldı');
+        });
+      }
+
+      var btnResetAll = document.getElementById('btnResetAllStorage');
+      if (btnResetAll) {
+        btnResetAll.addEventListener('click', function() {
+          if (confirm('Bütün DisciplineOS məlumatlarını birdəfəlik silmək istədiyinizdən əminsiniz?')) {
+            try {
+              if (window.localStorage) window.localStorage.removeItem(STORAGE_KEY);
+            } catch (e) {}
+            memoryStorage = {};
+            state = getDefaultState();
+            saveState();
+            closeModal('modalSettings');
+            switchTab('Overview');
+            alert('Bütün məlumatlar sıfırlandı.');
+          }
+        });
+      }
+
+      // Modal close handlers
+      var closeBtnIds = [
+        { btn: 'btnCloseTxnModal', modal: 'modalTransaction' },
+        { btn: 'btnCancelTxnModal', modal: 'modalTransaction' },
+        { btn: 'btnCloseSyncModal', modal: 'modalSync' },
+        { btn: 'btnCancelSyncModal', modal: 'modalSync' },
+        { btn: 'btnCloseSettingsModal', modal: 'modalSettings' },
+        { btn: 'btnCancelSettingsModal', modal: 'modalSettings' }
+      ];
+      for (var c = 0; c < closeBtnIds.length; c++) {
+        (function(item) {
+          var b = document.getElementById(item.btn);
+          if (b) {
+            b.addEventListener('click', function() {
+              closeModal(item.modal);
+            });
+          }
+        })(closeBtnIds[c]);
+      }
+
+      // Global Keydown (Escape to close modals)
+      document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 27) { // Escape
+          closeModal('modalTransaction');
+          closeModal('modalSync');
+          closeModal('modalSettings');
+        }
+      });
+
+      // Initial Render
+      switchTab('Overview');
+    });
+  </script>
+</body>
+</html>
