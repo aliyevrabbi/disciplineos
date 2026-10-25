@@ -892,30 +892,27 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: REMOTE SYNC ==================== -->
+  <!-- ==================== MODAL: JSONBIN CLOUD SYNC ==================== -->
   <div class="modal-overlay" id="modalRemote">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title">Serverlə sinxronizasiya</div>
+        <div class="modal-title">JSONbin.io Bulud Sinxronizasiyası</div>
         <button type="button" class="modal-close-btn" id="btnCloseRemoteModal">✕</button>
       </div>
-      <div id="remoteBody" style="font-size: 11px; color: #888888; margin-bottom: 10px;"></div>
-      <div id="remoteLoginBox" style="display: none; margin-bottom: 10px;">
-        <input type="password" id="inpRemotePassword" autocomplete="current-password" placeholder="Parol" style="width: 100%;">
+      <div id="remoteBody" style="font-size: 11px; color: #888888; margin-bottom: 10px;">
+        JSONbin.io üzərindən məlumatları bir kliklə iPad-ə çəkin və ya iPad-dəki vəziyyəti buluda göndərin. (Bin ID boşdursa, "Buluda Göndər" basdıqda avtomatik yeni Bin yaradılacaq).
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label class="metric-label">JSONbin Bin ID (məs: 671bd...):</label>
+        <input type="text" id="inpJsonBinId" placeholder="Avtomatik yaranacaq və ya bura yapışdırın" style="width: 100%; margin-bottom: 6px;">
+        <label class="metric-label">X-Master-Key:</label>
+        <input type="text" id="inpJsonBinKey" placeholder="$2a$10$..." style="width: 100%; font-size: 11px; color: #aaaaaa;">
       </div>
       <div id="remoteFeedbackBox" style="display: none; padding: 8px; border-radius: 4px; font-size: 11px; margin-bottom: 10px;"></div>
-      <div id="remoteChoiceBox" style="display: none; font-size: 11px; margin-bottom: 10px;">
-        <div id="remoteChoiceText" style="margin-bottom: 8px; color: #cccccc;"></div>
-        <textarea id="remoteCompare" readonly rows="6" style="width: 100%; font-size: 10px;"></textarea>
-        <div style="margin-top: 8px;">
-          <button type="button" id="btnRemoteKeepLocal" style="margin-right: 6px;">Cihazdakını saxla</button>
-          <button type="button" id="btnRemoteUseServer" style="margin-right: 6px;">Serverdəkini bərpa et</button>
-        </div>
-      </div>
       <div style="text-align: right;">
-        <button type="button" id="btnRemoteClose" style="margin-right: 8px;">Bağla</button>
-        <button type="button" id="btnRemoteRestore" style="margin-right: 8px;">Serverdən bərpa et</button>
-        <button type="button" id="btnRemoteAction" style="background-color: #0284c7; border-color: #0369a1; color: #ffffff;">Sinxronizasiya</button>
+        <button type="button" id="btnRemoteClose" style="margin-right: 6px;">Bağla</button>
+        <button type="button" id="btnRemoteRestore" style="background-color: #064e3b; border-color: #059669; color: #ffffff; margin-right: 6px;">⬇ Buluddan Çək (Pull)</button>
+        <button type="button" id="btnRemoteAction" style="background-color: #0284c7; border-color: #0369a1; color: #ffffff;">⬆ Buluda Göndər (Push)</button>
       </div>
     </div>
   </div>
@@ -985,6 +982,10 @@
     /* Strict ES5 JavaScript Implementation for iOS 9.3.5 Safari */
     var STORAGE_KEY = 'disciplineos:v1';
     var memoryStorage = {};
+
+    // === JSONbin.io Parametrləri ===
+    var DEFAULT_BIN_ID = "";
+    var DEFAULT_API_KEY = "$2a$10$X9DmK7ZTgWVYVRiTEZxp2O61AZf0IrCRq6xcf6bFX/3IyX4N5j73i";
 
     function getStorageItem(key) {
       try {
@@ -1920,30 +1921,39 @@
       switchTab(currentTabId);
     }
 
-    /* Remote Sync (ES5 + XMLHttpRequest). LocalStorage stays the source for the UI;
-       this only pushes/pulls the same state, and never overwrites newer server data silently. */
-    var REMOTE_KEY = 'disciplineos:remote';
-    var remote = { revision: null, dirty: false, busy: false };
+    /* JSONbin.io Cloud Sync (ES5 + XMLHttpRequest, 100% iOS 9.3.5 Safari Safe) */
+    var REMOTE_KEY = 'disciplineos:jsonbin';
+    var remote = {
+      binId: DEFAULT_BIN_ID,
+      apiKey: DEFAULT_API_KEY,
+      dirty: false,
+      busy: false
+    };
 
     function loadRemoteMeta() {
       var raw = getStorageItem(REMOTE_KEY);
       if (!raw) return;
       try {
         var m = JSON.parse(raw);
-        remote.revision = typeof m.revision === 'number' ? m.revision : null;
+        if (m.binId) remote.binId = m.binId;
+        if (m.apiKey) remote.apiKey = m.apiKey;
         remote.dirty = !!m.dirty;
-      } catch (e) { /* ignore corrupt meta */ }
+      } catch (e) {}
     }
 
     function saveRemoteMeta() {
-      setStorageItem(REMOTE_KEY, JSON.stringify({ revision: remote.revision, dirty: remote.dirty }));
+      setStorageItem(REMOTE_KEY, JSON.stringify({
+        binId: remote.binId || '',
+        apiKey: remote.apiKey || DEFAULT_API_KEY,
+        dirty: remote.dirty
+      }));
       setRemoteLabel();
     }
 
     function setRemoteLabel() {
       var el = document.getElementById('remoteSyncLabel');
       if (!el) return;
-      el.textContent = remote.dirty ? 'LOCAL' : 'SYNC';
+      el.textContent = remote.dirty ? 'SYNC*' : 'SYNC';
     }
 
     function markRemoteDirty() {
@@ -1951,22 +1961,6 @@
         remote.dirty = true;
         saveRemoteMeta();
       }
-    }
-
-    function remoteRequest(method, url, body, cb) {
-      var xhr = new XMLHttpRequest();
-      xhr.open(method, url, true);
-      xhr.timeout = 15000;
-      xhr.setRequestHeader('X-Discipline-Request', '1');
-      if (body !== undefined) xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function() {
-        var json = null;
-        try { json = JSON.parse(xhr.responseText); } catch (e) { json = null; }
-        cb(xhr.status, json);
-      };
-      xhr.onerror = function() { cb(0, null); };
-      xhr.ontimeout = function() { cb(0, null); };
-      xhr.send(body !== undefined ? JSON.stringify(body) : null);
     }
 
     function setRemoteFeedback(msg, isError) {
@@ -1979,164 +1973,157 @@
     }
 
     function openRemoteModal() {
-      var body = document.getElementById('remoteBody');
       var fb = document.getElementById('remoteFeedbackBox');
       if (fb) fb.style.display = 'none';
-      if (body) {
-        body.textContent = remote.dirty
-          ? 'Yerli dəyişikliklər hələ serverdə deyil (yaddaşda saxlanılıb).'
-          : 'Bütün dəyişikliklər serverdə saxlanılıb.';
-      }
+      var inpId = document.getElementById('inpJsonBinId');
+      var inpKey = document.getElementById('inpJsonBinKey');
+      if (inpId) inpId.value = remote.binId || '';
+      if (inpKey) inpKey.value = remote.apiKey || DEFAULT_API_KEY;
       openModal('modalRemote');
     }
 
+    function readModalCredentials() {
+      var inpId = document.getElementById('inpJsonBinId');
+      var inpKey = document.getElementById('inpJsonBinKey');
+      if (inpId) remote.binId = inpId.value.replace(/^\s+|\s+$/g, '');
+      if (inpKey) remote.apiKey = inpKey.value.replace(/^\s+|\s+$/g, '') || DEFAULT_API_KEY;
+      saveRemoteMeta();
+    }
+
     function buildSyncPayload() {
-      var days = state.days.slice(-400);
-      var txns = state.transactions.slice(0, 5000);
       return {
         schemaVersion: 1,
         countdownTargetDate: state.settings.countdownTargetDate,
-        days: days,
-        transactions: txns
+        settings: state.settings,
+        days: state.days.slice(-400),
+        transactions: state.transactions.slice(0, 5000)
       };
     }
 
-    function remoteLogin(cb) {
-      var pw = document.getElementById('inpRemotePassword').value;
-      remoteRequest('POST', '/api/v1/login', { password: pw }, function(status) {
-        if (status === 200) {
-          document.getElementById('inpRemotePassword').value = '';
-          cb();
-        } else if (status === 429) {
-          setRemoteFeedback('Çox cəhd. Bir az sonra yenidən cəhd edin.', true);
-        } else if (status === 0) {
-          setRemoteFeedback('Serverə qoşulmaq mümkün olmadı.', true);
-        } else {
-          setRemoteFeedback('Parol səhvdir.', true);
-        }
-      });
-    }
-
+    /* Push current state to JSONbin.io (Updates existing Bin or Creates a new Bin if Bin ID is empty) */
     function remoteSyncNow() {
       if (remote.busy) return;
-      remote.busy = true;
-      setRemoteFeedback('Göndərilir...', false);
-      if (document.getElementById('remoteLoginBox').style.display === 'block' && document.getElementById('inpRemotePassword').value) {
-        remote.busy = false;
-        return remoteLogin(function() { document.getElementById('remoteLoginBox').style.display = 'none'; remoteSyncNow(); });
+      readModalCredentials();
+      if (!remote.apiKey) {
+        setRemoteFeedback('X-Master-Key daxil edilməyib!', true);
+        return;
       }
-      remoteRequest('POST', '/api/v1/sync', { baseRevision: remote.revision === null ? 0 : remote.revision, payload: buildSyncPayload() }, function(status, json) {
-        remote.busy = false;
-        if (status === 200 && json) {
-          remote.revision = json.revision;
-          remote.dirty = false;
-          saveRemoteMeta();
-          setRemoteFeedback('Sinxronizasiya tamamlandı. Rev. ' + json.revision, false);
-        } else if (status === 409) {
-          setRemoteFeedback('Serverdə daha yeni məlumat var. Sinxronizasiya dayandırıldı, yerli məlumat silinməyib. Əvvəl JSON ixrac edin.', true);
-        } else if (status === 401) {
-          document.getElementById('remoteLoginBox').style.display = 'block';
-          setRemoteFeedback('Sessiya bitib. Parolu daxil edib yenidən sinxronlaşdırın.', true);
-        } else {
-          setRemoteFeedback('Serverə qoşulmaq mümkün olmadı. Yerli məlumat qorunub, sonra yenidən cəhd edin.', true);
+
+      remote.busy = true;
+      var payload = buildSyncPayload();
+      var xhr = new XMLHttpRequest();
+
+      if (remote.binId) {
+        setRemoteFeedback('JSONbin.io-ya göndərilir (Yenilənir)...', false);
+        xhr.open('PUT', 'https://api.jsonbin.io/v3/b/' + remote.binId, true);
+      } else {
+        setRemoteFeedback('Yeni Bin yaradılır və məlumatlar göndərilir...', false);
+        xhr.open('POST', 'https://api.jsonbin.io/v3/b', true);
+        xhr.setRequestHeader('X-Bin-Name', 'DisciplineOS_State');
+      }
+
+      xhr.timeout = 20000;
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-Master-Key', remote.apiKey);
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          remote.busy = false;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              var resp = JSON.parse(xhr.responseText);
+              if (resp && resp.metadata && resp.metadata.id) {
+                remote.binId = resp.metadata.id;
+                var inpId = document.getElementById('inpJsonBinId');
+                if (inpId) inpId.value = remote.binId;
+              }
+              remote.dirty = false;
+              saveRemoteMeta();
+              setRemoteFeedback('Uğurla buluda yazıldı! Bin ID: ' + remote.binId, false);
+              updateStatusIndicator('Buludla sinxronlaşdırıldı');
+            } catch (e) {
+              setRemoteFeedback('Cavab oxunarkən xəta: ' + e.message, true);
+            }
+          } else {
+            setRemoteFeedback('Xəta baş verdi (Status ' + xhr.status + '). Bin ID və ya açarı yoxlayın.', true);
+          }
         }
-      });
+      };
+
+      xhr.onerror = function() {
+        remote.busy = false;
+        setRemoteFeedback('Şəbəkə xətası: JSONbin.io ilə əlaqə qurulmadı.', true);
+      };
+
+      xhr.send(JSON.stringify(payload));
     }
 
-    /* Restore from server. Never overwrites local data without an explicit choice. ES5 only. */
-    var pendingServerState = null;
-
-    function localHasData() {
-      return state.days.length > 0 || state.transactions.length > 0;
-    }
-
-    function isValidServerState(j) {
-      return !!(j && typeof j.revision === 'number' && j.state && typeof j.state === 'object' &&
-        Array.isArray(j.state.days) && Array.isArray(j.state.transactions));
-    }
-
-    function describeData(days, txs, rev) {
-      return 'Rev. ' + rev + ' · gün: ' + days + ' · tranzaksiya: ' + txs;
-    }
-
-    function showRestoreChoice(text, compare) {
-      var box = document.getElementById('remoteChoiceBox');
-      document.getElementById('remoteChoiceText').textContent = text;
-      document.getElementById('remoteCompare').value = compare;
-      document.getElementById('btnRemoteUseServer').style.display = 'inline-block';
-      document.getElementById('remoteFeedbackBox').style.display = 'none';
-      box.style.display = 'block';
-    }
-
+    /* Pull latest JSON from JSONbin.io and merge/apply into DisciplineOS */
     function remoteRestoreFromServer() {
       if (remote.busy) return;
+      readModalCredentials();
+      if (!remote.binId) {
+        setRemoteFeedback('Zəhmət olmasa əvvəlcə Bin ID daxil edin (və ya "Buluda Göndər" basaraq avtomatik yaradın).', true);
+        return;
+      }
+
       remote.busy = true;
-      setRemoteFeedback('Server yoxlanır...', false);
-      remoteRequest('GET', '/api/v1/state', undefined, function(status, json) {
+      setRemoteFeedback('JSONbin.io-dan məlumat çəkilir...', false);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://api.jsonbin.io/v3/b/' + remote.binId + '/latest', true);
+      xhr.timeout = 20000;
+      if (remote.apiKey) {
+        xhr.setRequestHeader('X-Master-Key', remote.apiKey);
+      }
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          remote.busy = false;
+          if (xhr.status === 200) {
+            try {
+              var resp = JSON.parse(xhr.responseText);
+              var record = (resp && resp.record) ? resp.record : resp;
+
+              if (!record || typeof record !== 'object') {
+                setRemoteFeedback('Bin daxilində düzgün obyekt tapılmadı.', true);
+                return;
+              }
+
+              // If settings are included in the bin, merge settings too
+              if (record.settings && typeof record.settings === 'object') {
+                for (var k in record.settings) {
+                  if (record.settings.hasOwnProperty(k)) {
+                    state.settings[k] = record.settings[k];
+                  }
+                }
+              }
+
+              // Validate if it's a valid daily sync payload or full state payload
+              if (record.date || Array.isArray(record.days) || Array.isArray(record.transactions)) {
+                executeAtomicSync(record);
+                remote.dirty = false;
+                saveRemoteMeta();
+                setRemoteFeedback('Məlumatlar uğurla çəkildi və tətbiq edildi!', false);
+                updateStatusIndicator('JSONbin-dən yeniləndi');
+              } else {
+                setRemoteFeedback('Bin-də hələ gündəlik məlumat yoxdur (Başlanğıc rejim).', false);
+              }
+            } catch (e) {
+              setRemoteFeedback('JSON oxuma xətası: ' + e.message, true);
+            }
+          } else {
+            setRemoteFeedback('Məlumat çəkilə bilmədi (Status ' + xhr.status + '). Bin ID-ni yoxlayın.', true);
+          }
+        }
+      };
+
+      xhr.onerror = function() {
         remote.busy = false;
-        if (status === 401) {
-          document.getElementById('remoteLoginBox').style.display = 'block';
-          setRemoteFeedback('Sessiya bitib. Parolu daxil edib yenidən cəhd edin.', true);
-          return;
-        }
-        if (status !== 200 || !isValidServerState(json)) {
-          setRemoteFeedback('Serverdən məlumat alına bilmədi. Yerli məlumat dəyişdirilmədi.', true);
-          return;
-        }
-        var sDays = json.state.days.length, sTx = json.state.transactions.length;
-        var localDesc = describeData(state.days.length, state.transactions.length, remote.revision === null ? 0 : remote.revision);
-        var serverDesc = describeData(sDays, sTx, json.revision);
-        var compare = 'Cihaz: ' + localDesc + '\nServer: ' + serverDesc;
-        if (!localHasData()) {
-          pendingServerState = json;
-          showRestoreChoice('Cihazda məlumat yoxdur. Serverdəki məlumatı bu cihaza bərpa etmək olar.', compare);
-          return;
-        }
-        if (remote.revision === json.revision && !remote.dirty) {
-          setRemoteFeedback('Cihaz və server artıq eynidir (Rev. ' + json.revision + ').', false);
-          return;
-        }
-        pendingServerState = json;
-        showRestoreChoice('Cihaz və server fərqli revision-dadır. Seçim edin: cihazdakını saxlayın, ya serverdəkini bərpa edin, ya da hər ikisini JSON kimi ixrac edib əl ilə həll edin.', compare);
-      });
-    }
+        setRemoteFeedback('Şəbəkə xətası: JSONbin.io-ya qoşulmaq mümkün olmadı.', true);
+      };
 
-    function applyServerState(j) {
-      var next = { settings: getDefaultSettings(), days: j.state.days, transactions: j.state.transactions };
-      if (j.state.settings && typeof j.state.settings === 'object') {
-        for (var k in j.state.settings) {
-          if (j.state.settings.hasOwnProperty(k)) next.settings[k] = j.state.settings[k];
-        }
-      }
-      var text;
-      try { text = JSON.stringify(next); } catch (e) { return false; }
-      var previous = getStorageItem(STORAGE_KEY);
-      if (!setStorageItem(STORAGE_KEY, text)) {
-        if (previous !== null) setStorageItem(STORAGE_KEY, previous);
-        return false;
-      }
-      remote.revision = j.revision;
-      remote.dirty = false;
-      saveRemoteMeta();
-      loadState();
-      if (typeof switchTab === 'function') switchTab(currentTabId);
-      return true;
-    }
-
-    function remoteUseServer() {
-      if (!pendingServerState) return;
-      if (applyServerState(pendingServerState)) {
-        document.getElementById('remoteChoiceBox').style.display = 'none';
-        setRemoteFeedback('Serverdəki məlumat bərpa edildi. Rev. ' + remote.revision, false);
-      } else {
-        setRemoteFeedback('Bərpa alınmad. Cihazdakı məlumat qorunub.', true);
-      }
-    }
-
-    function remoteKeepLocal() {
-      pendingServerState = null;
-      document.getElementById('remoteChoiceBox').style.display = 'none';
-      setRemoteFeedback('Cihazdakı məlumat saxlandı. İstərsən əvvəl JSON ixrac edin.', false);
+      xhr.send();
     }
 
     /* Event Listeners Setup (DOM Level 2, 100% iOS 9 Safe) */
@@ -2175,10 +2162,7 @@
       if (btnRemoteAction) btnRemoteAction.addEventListener('click', remoteSyncNow);
       var btnRemoteRestore = document.getElementById('btnRemoteRestore');
       if (btnRemoteRestore) btnRemoteRestore.addEventListener('click', remoteRestoreFromServer);
-      var btnUseServer = document.getElementById('btnRemoteUseServer');
-      if (btnUseServer) btnUseServer.addEventListener('click', remoteUseServer);
-      var btnKeepLocal = document.getElementById('btnRemoteKeepLocal');
-      if (btnKeepLocal) btnKeepLocal.addEventListener('click', remoteKeepLocal);
+
       var btnRemoteClose = document.getElementById('btnRemoteClose');
       if (btnRemoteClose) btnRemoteClose.addEventListener('click', function() { closeModal('modalRemote'); });
       var btnCloseRemote = document.getElementById('btnCloseRemoteModal');
