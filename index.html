@@ -32,7 +32,7 @@
     }
     button {
       background-color: #000000;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
       color: #ffffff;
       padding: 10px 14px;
@@ -48,7 +48,7 @@
     }
     input, select, textarea {
       background-color: #000000;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
       color: #ffffff;
       padding: 10px;
@@ -67,7 +67,7 @@
     }
     /* Header */
     .header-bar {
-      border-bottom: 1px dashed #666666;
+      border-bottom: 1px dashed rgba(255,255,255,0.22);
       background-color: #000000;
       padding: 8px 12px;
       position: relative;
@@ -142,7 +142,7 @@
     }
     /* Tabs Navigation */
     .nav-tabs {
-      border-bottom: 1px dashed #666666;
+      border-bottom: 1px dashed rgba(255,255,255,0.22);
       background-color: #000000;
       overflow-x: auto;
       white-space: nowrap;
@@ -167,7 +167,7 @@
     /* Cards and Sections */
     .card {
       background-color: #000000;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
       padding: 14px;
       margin-bottom: 14px;
@@ -178,13 +178,7 @@
       color: #ffffff;
       margin-bottom: 10px;
       padding-bottom: 6px;
-      border-bottom: 1px dashed #666666;
-    }
-    .card-title:before {
-      content: "[ ";
-    }
-    .card-title:after {
-      content: " ]";
+      border-bottom: 1px dashed rgba(255,255,255,0.22);
     }
     .card-title-sub {
       float: right;
@@ -243,7 +237,7 @@
     /* Metric Item */
     .metric-box {
       background-color: #000000;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
       padding: 10px;
     }
@@ -283,7 +277,7 @@
       display: block;
       padding: 10px;
       background-color: #000000;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
       cursor: pointer;
       min-height: 44px;
@@ -310,7 +304,7 @@
       margin-right: 4px;
       font-size: 12px;
       background-color: #000000;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
       color: #aaaaaa;
     }
@@ -330,12 +324,12 @@
       text-align: left;
       padding: 8px 6px;
       color: #aaaaaa;
-      border-bottom: 1px dashed #666666;
+      border-bottom: 1px dashed rgba(255,255,255,0.22);
       font-weight: normal;
     }
     .table-list td {
       padding: 10px 6px;
-      border-bottom: 1px dashed #333333;
+      border-bottom: 1px dashed rgba(255,255,255,0.12);
       color: #ffffff;
     }
     /* Colors */
@@ -359,7 +353,7 @@
     }
     .modal-box {
       background-color: #000000;
-      border: 1px dashed #ffffff;
+      border: 1px dashed rgba(255,255,255,0.35);
       border-radius: 0;
       max-width: 600px;
       margin: 30px auto;
@@ -397,7 +391,7 @@
       left: 0;
       right: 0;
       background-color: #000000;
-      border-top: 1px dashed #666666;
+      border-top: 1px dashed rgba(255,255,255,0.22);
       padding: 6px 14px;
       font-size: 11px;
       color: #aaaaaa;
@@ -416,7 +410,7 @@
       text-align: center;
       color: #aaaaaa;
       font-size: 12px;
-      border: 1px dashed #666666;
+      border: 1px dashed rgba(255,255,255,0.22);
       border-radius: 0;
     }
   </style>
@@ -552,7 +546,7 @@
       <div class="row">
         <div class="col-6">
           <div class="card">
-            <div class="card-title">Günün Cümləsi</div>
+            <div class="card-title">📝 Günün Cümləsi</div>
             <textarea id="txtOvSentence" rows="2" maxlength="240" placeholder="Bu gün atılan ən vacib addım (1 gün = 1 cümlə)..."></textarea>
             <div style="margin-top: 8px; text-align: right;">
               <span style="font-size: 11px; color: #666; margin-right: 8px;" id="ovSentenceCount">0 / 240</span>
@@ -562,7 +556,7 @@
         </div>
         <div class="col-6">
           <div class="card">
-            <div class="card-title">Son Maliyyə Əməliyyatları</div>
+            <div class="card-title">💸 Son Maliyyə Əməliyyatları</div>
             <div id="ovRecentTxnsContainer">
               <div class="empty-state">Məlumat yoxdur</div>
             </div>
@@ -645,7 +639,7 @@
 
       <!-- Nutrition & Body Form -->
       <div class="card">
-        <div class="card-title">Bugünkü Qidalanma və Çəki Girişi</div>
+        <div class="card-title">⚖️ Bugünkü Qidalanma və Çəki Girişi</div>
         <form id="formNutrition">
           <div class="row">
             <div class="col-6">
@@ -692,7 +686,7 @@
 
       <!-- Weight & Body History -->
       <div class="card">
-        <div class="card-title">Çəki və Qida Tarixçəsi</div>
+        <div class="card-title">📈 Çəki və Qida Tarixçəsi</div>
         <table class="table-list">
           <thead>
             <tr>
@@ -715,7 +709,7 @@
     <div id="viewIelts" style="display: none;">
       <!-- Streak & Target Card -->
       <div class="card">
-        <div class="card-title">IELTS Hazırlığı (Reading, Listening, Writing, Speaking)</div>
+        <div class="card-title">🧠 IELTS Hazırlığı (Reading, Listening, Writing, Speaking)</div>
         <div class="row">
           <div class="col-6">
             <div class="metric-box">
@@ -736,7 +730,7 @@
 
       <!-- Minutes Entry Form -->
       <div class="card">
-        <div class="card-title">Bugünkü Dəqiqələr Girişi</div>
+        <div class="card-title">⏱️ Bugünkü Dəqiqələr Girişi</div>
         <form id="formIelts">
           <div class="row">
             <div class="col-6">
@@ -768,7 +762,7 @@
 
       <!-- IELTS History Table -->
       <div class="card">
-        <div class="card-title">IELTS Tarixçəsi</div>
+        <div class="card-title">🗂️ IELTS Tarixçəsi</div>
         <table class="table-list">
           <thead>
             <tr>
@@ -792,7 +786,7 @@
     <!-- ==================== VIEW 5: DAILY SENTENCE ==================== -->
     <div id="viewSentence" style="display: none;">
       <div class="card">
-        <div class="card-title">Hər Gün Üçün Tək Bir Cümlə (1 gün = 1 cümlə)</div>
+        <div class="card-title">🖊️ Hər Gün Üçün Tək Bir Cümlə (1 gün = 1 cümlə)</div>
         <textarea id="txtMainSentence" rows="3" maxlength="240" placeholder="Bu gün qazanılan ən vacib prinsip və ya həyat dərsi..."></textarea>
         <div style="margin-top: 8px; text-align: right;">
           <span style="font-size: 11px; color: #666; margin-right: 8px;" id="mainSentenceCount">0 / 240</span>
